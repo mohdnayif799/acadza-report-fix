@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Node / Vercel
+node_modules/
+.vercel/
+
+# Tooling / OS
+.remember/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
