@@ -419,6 +419,7 @@
     render();
     const row = document.querySelector('.q-row[aria-current="true"]');
     if (row) row.scrollIntoView({ block: "nearest" });
+    if (idx === 0) $("queue").scrollTop = 0; // keep the queue-order note visible at the top
   }
   function render() {
     renderTop();
