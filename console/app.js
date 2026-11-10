@@ -144,12 +144,31 @@
   }
 
   /* ---------- middle: question and diff ---------- */
-  function inlineDiff(before, after) {
+  // Diff whole whitespace-separated tokens, so "\frac{7}{8}" is struck as one unit instead of
+  // character runs like "\frac{", "}{", "}". If the replacement brings in math, the added part
+  // is shown rendered (a real fraction), not as its linearised text.
+  const tokens = (s) => s.split(/(\s+)/).filter(Boolean);
+  function addedNode(text, mathHtml) {
+    const lead = text.match(/^\s*/)[0];
+    const core = text.slice(lead.length);
+    if (!mathHtml || !core.trim()) return [h("ins", { class: "add" }, text)];
+    const ins = h("ins", { class: "add rendered", title: core.trim() });
+    ins.innerHTML = DOMPurify.sanitize(mathHtml, PURIFY); // sanitised MathML only
+    return [lead, ins];
+  }
+  function inlineDiff(before, after, find, replace) {
     const box = h("div", { class: "diff-inline" });
-    const parts = Diff.diffWords(before, after);
+    const parts = Diff.diffArrays(tokens(before), tokens(after)).map((p) => ({ ...p, value: p.value.join("") }));
+    const newMath = (replace || "").match(/<math[\s\S]*?<\/math>/g) || [];
+    const mathHtml = newMath.length === 1 && !(find || "").includes("<math") ? newMath[0] : null;
+    let mathUsed = false;
     const CTX = 70;
     parts.forEach((p, i) => {
-      if (p.added) return box.append(h("ins", { class: "add" }, p.value));
+      if (p.added) {
+        const nodes = addedNode(p.value, mathUsed ? null : mathHtml);
+        mathUsed = mathUsed || nodes.length > 1;
+        return box.append(...nodes);
+      }
       if (p.removed) return box.append(h("del", { class: "rm" }, p.value));
       const first = i === 0, last = i === parts.length - 1;
       let v = p.value;
@@ -189,7 +208,7 @@
         h("section", { class: "side-after" }, h("h3", { class: "side-title" }, "After (added)"),
           rich(edits.replace != null ? ch.before_html.replace(ch.find, edits.replace) : ch.after_html))));
     } else {
-      block.append(inlineDiff(ch.before_text, ch.after_text));
+      block.append(inlineDiff(ch.before_text, ch.after_text, ch.find, ch.replace));
       if (edits.replace != null) block.append(h("div", { class: "editor" }, h("label", {}, "Your version"), rich(edits.replace, "preview content")));
     }
     block.append(h("details", { class: "raw" }, h("summary", {}, "Exact change in the stored HTML"),

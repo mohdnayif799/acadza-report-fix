@@ -439,3 +439,18 @@ Then stop.
 - The very first commit (setup) happened before I added `.gitattributes`. With Windows `core.autocrlf=true`, git converted `data/questions.json` and `data/reports.json` (CRLF in the zip) to LF when storing them. Same JSON, different bytes, against the rule "data/ unchanged". My setup check had compared the *working copy* with the zip, not what git stored, so it passed.
 - Caught after the rebase: I re-ran `cmp` against the zip before pushing; `taxonomy.json` differed in the working copy (the rebase re-checked-out the pre-.gitattributes commit, adding 32 CRs locally). Investigating that, I compared the *committed blobs* with the zip and found the two LF-converted files. I had pushed once already by then (a mistake: I should have stopped at the first mismatch).
 - Fix: committed the exact zip bytes (`.gitattributes` keeps `data/` raw) and pushed normally (fast-forward, no force). Now every file in `data/` and `brief/ASSIGNMENT.md` on `main` is byte-identical to the zip; tests and `engine.validate` pass.
+
+---
+
+## 2026-11-11 00:49 IST: PROMPT #9 (two console fixes)
+
+````text
+Two small fixes on the live console, then redeploy and push:
+1. R014 diff: it diffs character by character, so it strikes "\frac{", "}{" and "}" separately with "/" squeezed in. Make text diffs work on whole tokens: strike the entire "\frac{7}{8}" and show the replacement rendered as a real fraction. Check every other text diff still looks right.
+2. R023 student reply says "I have sent this to our faculty team". Change it to "We have sent..." in results.json and the console data. Log it in the build log as a human edit to a model reply.
+Redeploy to the same production URL, check it logged out, run validate and tests, commit and push to main. Then stop.
+````
+
+## 2026-11-11 ~01:00 IST: diff tokens + a human edit to a model reply
+- **Diff fix:** inline diffs used `Diff.diffWords`, which split `\frac{7}{8}` into runs (`\frac{`, `}{`, `}`) with `/` squeezed in (R014, reported by the user). Now `Diff.diffArrays` over whitespace-separated tokens, so a token is struck or added whole; when the replacement brings in one `<math>` block, the added part is shown rendered (R014 shows a real 7/8 fraction, the blank option C fill shows rendered 1:1). Checked all 10 inline text diffs: spelling (3), missing data (2), wrong solution, exam tag, unit, option fill, raw code; all read as whole words.
+- **HUMAN EDIT to a model reply (R023):** the reply model wrote "I have sent this to our faculty team"; replies speak for the Acadza team, so a human changed it to "We have sent this to our faculty team". Recorded in `engine/human_edits.json` (who, when, why) and applied by `engine/human_edits.py` after the pipeline, so a rerun keeps it and a stale edit fails loudly instead of silently. `out/trace.json` lists it under `human_edits` for R023. This is the only human change to model output in results.json.

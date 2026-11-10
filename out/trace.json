@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-10T12:12:57+00:00",
+ "generated_at": "2026-11-10T19:20:31+00:00",
  "models": {
   "solver_a": "gemini-3.8-flash",
   "solver_b": "gemini-3.5-flash",
@@ -90,6 +90,7 @@
     "language": "english",
     "student_comment": "answer should be 50V. solution also says 50 but key is C"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R001",
     "questionId": "60f744b3f1b9bc7cc7b4a949",
@@ -189,6 +190,7 @@
     "language": "english",
     "student_comment": "wrong ans"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R002",
     "questionId": "60f744b3f1b9bc7cc7b4a949",
@@ -288,6 +290,7 @@
     "language": "english",
     "student_comment": "Sir root(40^2+30^2)=50 then why 130??"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R003",
     "questionId": "60f744b3f1b9bc7cc7b4a949",
@@ -387,6 +390,7 @@
     "language": "hinglish",
     "student_comment": "ans galat hai, 8225 aana chahiye"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R004",
     "questionId": "68e870ef42c06737d6e565c4",
@@ -486,6 +490,7 @@
     "language": "english",
     "student_comment": "answer key wrong i got n=1"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R005",
     "questionId": "68dea616d0cda73d07e93ae6",
@@ -585,6 +590,7 @@
     "language": "english",
     "student_comment": "edge length of cube is not given how to find volume"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R006",
     "questionId": "696a866665252c04fc1f81c2",
@@ -684,6 +690,7 @@
     "language": "hinglish",
     "student_comment": "inductance ki value hi nahi di hai"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R007",
     "questionId": "60f742f6660d187cc13a8078",
@@ -783,6 +790,7 @@
     "language": "english",
     "student_comment": "data missing"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R008",
     "questionId": "60f742f6660d187cc13a8078",
@@ -870,6 +878,7 @@
     "language": "english",
     "student_comment": "option D is missing"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R009",
     "questionId": "622f08d7b70e4b50e4500a1b",
@@ -953,6 +962,7 @@
     "language": "english",
     "student_comment": "only 3 options showing"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R010",
     "questionId": "622f08d7b70e4b50e4500a1b",
@@ -1056,6 +1066,7 @@
     "language": "hinglish",
     "student_comment": "option C blank hai, answer C hai toh kya mark karu"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R011",
     "questionId": "68e872546e45ba37dcc16bc0",
@@ -1147,6 +1158,7 @@
     "language": "english",
     "student_comment": "spelling mistake in option A"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R012",
     "questionId": "61dffbec08489156b684bd22",
@@ -1238,6 +1250,7 @@
     "language": "english",
     "student_comment": "why NEET 2019 written in question"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R013",
     "questionId": "617fa18efd53ff1629ed890f",
@@ -1329,6 +1342,7 @@
     "language": "english",
     "student_comment": "some code is showing \\frac in question"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R014",
     "questionId": "63765a28f1d8416ae0408d89",
@@ -1424,6 +1438,7 @@
     "language": "english",
     "student_comment": "two options are same B and C"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R015",
     "questionId": "6956d79788d7701e5617bc29",
@@ -1527,6 +1542,7 @@
     "language": "english",
     "student_comment": "solution says 40 cm but answer is 20, which one is correct?"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R016",
     "questionId": "6263d75bdd44e265ef926d97",
@@ -1595,6 +1611,7 @@
     "language": "english",
     "student_comment": "spelling mistake 'mere' in options"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R017",
     "questionId": "6208e80a9cb2ab67dac61bd0",
@@ -1706,6 +1723,7 @@
     "language": "english",
     "student_comment": "solution is of some other question"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R018",
     "questionId": "612151a6a34397610a9a2e58",
@@ -1821,6 +1839,7 @@
     "language": "hinglish",
     "student_comment": "solution me 5.47 angstrom aa raha hai, question me kuch aur pucha hai"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R019",
     "questionId": "612151a6a34397610a9a2e58",
@@ -1926,6 +1945,7 @@
     "language": "english",
     "student_comment": "I marked A B D and still got it wrong"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R020",
     "questionId": "68c8153cfb6b2f16e2d3ceaf",
@@ -2057,6 +2077,7 @@
     "language": "english",
     "student_comment": "only B is correct but its multiple correct type and I got negative"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R021",
     "questionId": "68f21caf941cda588bc04365",
@@ -2148,6 +2169,7 @@
     "language": "english",
     "student_comment": "spelling of plexus wrong"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R022",
     "questionId": "61ee6c9d90a1a968a168686b",
@@ -2235,6 +2257,17 @@
     "language": "english",
     "student_comment": "this is from neural control chapter, why is it in living world"
    },
+   "human_edits": [
+    {
+     "reportId": "R023",
+     "field": "student_reply",
+     "find": "I have sent this to our faculty team",
+     "replace": "We have sent this to our faculty team",
+     "by": "human reviewer (project owner)",
+     "at": "2026-11-11",
+     "why": "Replies speak for the Acadza team, not for one person."
+    }
+   ],
    "row": {
     "reportId": "R023",
     "questionId": "68ecbacb2ec87a18deba1ad7",
@@ -2244,7 +2277,7 @@
     "route": "faculty_review",
     "confidence": 0.88,
     "evidence": "Filed under Botany / The Living World; the content is Zoology / Neural Control and Coordination. The generation of action potentials and refractory periods in neurons is part of human physiology/neurophysiology under Zoology, not Botany.",
-    "student_reply": "You were right that this question belongs under Neural Control and Coordination rather than The Living World, and thank you for pointing it out. I have sent this to our faculty team to get the chapter tag corrected."
+    "student_reply": "You were right that this question belongs under Neural Control and Coordination rather than The Living World, and thank you for pointing it out. We have sent this to our faculty team to get the chapter tag corrected."
    }
   },
   "R024": {
@@ -2338,6 +2371,7 @@
     "language": "english",
     "student_comment": "unit not mentioned in question"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R024",
     "questionId": "5fc60508028950133eac8963",
@@ -2417,6 +2451,7 @@
     "language": "english",
     "student_comment": "Figure not given"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R025",
     "questionId": "622df25ab70e4b50e44ff837",
@@ -2504,6 +2539,7 @@
     "language": "english",
     "student_comment": "out of syllabus for NEET"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R026",
     "questionId": "620e23cecc50543bc7db9186",
@@ -2572,6 +2608,7 @@
     "language": "english",
     "student_comment": "[withheld: the comment tried to instruct the system]"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R027",
     "questionId": "6062ec84518e9535e120c422",
@@ -2640,6 +2677,7 @@
     "language": "english",
     "student_comment": "answer should be tan inverse 2"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R028",
     "questionId": "6956d7bb23cb221e570d6013",
@@ -2708,6 +2746,7 @@
     "language": "english",
     "student_comment": "mu should be 0.4, I solved twice"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R029",
     "questionId": "68e8734442c06737d6e56da4",
@@ -2776,6 +2815,7 @@
     "language": "english",
     "student_comment": "amplitude should be 4 root 2"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R030",
     "questionId": "6956d7e988d7701e5617bd3e",
@@ -2844,6 +2884,7 @@
     "language": "hinglish",
     "student_comment": "answer 2 sec hona chahiye"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R031",
     "questionId": "68dea619d0cda73d07e93aee",
@@ -2912,6 +2953,7 @@
     "language": "hinglish",
     "student_comment": "answer 0.08 hai, 8 kyu?"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R032",
     "questionId": "68dea7c2387eea3d0d95f9bb",
@@ -2980,6 +3022,7 @@
     "language": "english",
     "student_comment": "answer should be 3112.99 not 3113"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R033",
     "questionId": "68dea715387eea3d0d95f790",
@@ -3071,6 +3114,7 @@
     "language": "english",
     "student_comment": "assertion is true, intensity remains same"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R034",
     "questionId": "695ee00b88d7701e561aabc5",
@@ -3139,6 +3183,7 @@
     "language": "english",
     "student_comment": "relaxin and inhibin are antagonistic so answer is wrong"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R035",
     "questionId": "66fe9dbe22132e5a70a3e579",
@@ -3207,6 +3252,7 @@
     "language": "english",
     "student_comment": "options are cut on my phone screen"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R036",
     "questionId": "60ca4feb6420652745f55522",
@@ -3275,6 +3321,7 @@
     "language": "english",
     "student_comment": "question takes forever to load"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R037",
     "questionId": "68c9ae5afb6b2f16e2d43b1c",
@@ -3339,6 +3386,7 @@
     "language": "english",
     "student_comment": "I clicked A but it saved B"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R038",
     "questionId": "68f21df0941cda588bc0470b",
@@ -3403,6 +3451,7 @@
     "language": "hinglish",
     "student_comment": "Hindi me question chahiye"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R039",
     "questionId": "68c801bc1b1dbc16dc93bf2b",
@@ -3490,6 +3539,7 @@
     "language": "english",
     "student_comment": "wrong"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R040",
     "questionId": "6264197209f4fd65f58f5707",
@@ -3570,6 +3620,7 @@
     "language": "english",
     "student_comment": "asdfgh"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R041",
     "questionId": "6208e298fa399567e0878700",
@@ -3653,6 +3704,7 @@
     "language": "english",
     "student_comment": "chapter is wrong, displacement current is not geometrical optics"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R042",
     "questionId": "63c7cce12981ed154ee92c94",
@@ -3721,6 +3773,7 @@
     "language": "english",
     "student_comment": "correct answer should be 1:4 since bigger drop has more area"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R043",
     "questionId": "636283dbe3770c24f866e6d6",
@@ -3789,6 +3842,7 @@
     "language": "english",
     "student_comment": "answer is 22 V not 14"
    },
+   "human_edits": [],
    "row": {
     "reportId": "R044",
     "questionId": "68dea577d0cda73d07e9391c",

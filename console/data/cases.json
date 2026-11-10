@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-10T12:12:57+00:00",
+ "generated_at": "2026-11-10T19:20:31+00:00",
  "models": {
   "solver_a": "gemini-3.8-flash",
   "solver_b": "gemini-3.5-flash",
@@ -1574,7 +1574,7 @@
      "source": "android",
      "reportedAt": "2026-11-04T07:21:00Z",
      "comment": "this is from neural control chapter, why is it in living world",
-     "reply": "You were right that this question belongs under Neural Control and Coordination rather than The Living World, and thank you for pointing it out. I have sent this to our faculty team to get the chapter tag corrected.",
+     "reply": "You were right that this question belongs under Neural Control and Coordination rather than The Living World, and thank you for pointing it out. We have sent this to our faculty team to get the chapter tag corrected.",
      "verdict": "defect",
      "route": "faculty_review",
      "student_was": "right",

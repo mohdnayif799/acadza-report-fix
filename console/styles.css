@@ -196,6 +196,8 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   background: var(--panel); overflow-wrap: anywhere; white-space: pre-wrap;
 }
 del.rm { background: var(--rm-bg); color: var(--rm-text); text-decoration: line-through; text-decoration-thickness: 1.5px; border-radius: 3px; padding: 0 2px; }
+ins.add.rendered { display: inline-block; padding: 2px 4px; }
+ins.add.rendered math { font-size: var(--large); }
 ins.add { background: var(--add-bg); color: var(--add-text); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; border-radius: 3px; padding: 0 2px; }
 .gap { color: var(--text-2); }
 

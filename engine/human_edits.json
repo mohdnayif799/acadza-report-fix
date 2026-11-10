@@ -1,0 +1,11 @@
+[
+  {
+    "reportId": "R023",
+    "field": "student_reply",
+    "find": "I have sent this to our faculty team",
+    "replace": "We have sent this to our faculty team",
+    "by": "human reviewer (project owner)",
+    "at": "2026-11-11",
+    "why": "Replies speak for the Acadza team, not for one person."
+  }
+]

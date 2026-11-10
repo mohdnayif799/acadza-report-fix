@@ -21,6 +21,7 @@ from engine.config import load_settings
 from engine.decide import decide
 from engine.evidence import Evidence
 from engine.guard import BRIEF_KEYS, GuardContext, guard
+from engine.human_edits import apply_human_edits, load_edits
 from engine.models import ROOT, Report, load_questions, load_reports, load_taxonomy
 from engine.reply import reply_facts, write_reply
 from engine.syllabus import check_syllabus
@@ -92,7 +93,12 @@ def run() -> int:
             )
         )
     pairs.sort(key=lambda p: p[0]["reportId"])
-    rows = [p[0] for p in pairs]
+    # Human edits to model output (engine/human_edits.json) are applied last and recorded.
+    rows, human = apply_human_edits([p[0] for p in pairs], load_edits())
+    pairs = [
+        (row, {**t, "human_edits": human.get(row["reportId"], [])})
+        for row, (_, t) in zip(rows, pairs, strict=True)
+    ]
     errors = validate_results(rows, reports, questions, taxonomy)
     OUT.mkdir(exist_ok=True)
     (ROOT / "results.json").write_text(
