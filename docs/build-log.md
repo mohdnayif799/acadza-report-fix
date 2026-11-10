@@ -427,3 +427,7 @@ Three things, in this order. Commit each step.
 
 Then stop.
 ````
+
+## 2026-11-10 ~22:50 IST: queue order explained, redeployed
+- One line at the top of the queue, the same explanation in the shortcuts panel and README. Redeployed to the same production URL; logged-out curl: `/` 200, `/data/cases.json` 200, `/.env.local` 404.
+- Small catch on the live site: on first load the queue was scrolled 150 px (scrollIntoView of the first row under the sticky section header), hiding the new note. Fixed (queue stays at the top when the first case is selected) and redeployed; verified scrollTop 0 and the note visible.

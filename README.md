@@ -92,3 +92,7 @@ To make fresh model calls, copy `.env.example` to `.env` and set `GEMINI_API_KEY
 - **Model judgement is still model judgement.** Answer-key changes need two independent solves plus the stored solution; text fixes need a second model. Rewritten solutions and syllabus calls are the least mechanically verifiable, so the second is never auto-applied and the first needs four agreeing checks.
 - **The syllabus check uses the NMC NEET (UG)-2026 syllabus** (the latest published, as of 10 Nov 2026), stored in `engine/reference/` with its source.
 - **Scale:** 43 questions cost about 735k tokens across every iteration of the build; a production run would batch, and could skip the second solver when the first agrees with both the key and the stored solution at high confidence.
+
+## Licence
+
+The code is under the [LICENSE](LICENSE) in this repo; `data/` (questions, reports, taxonomy) belongs to Acadza and is not covered by it.
