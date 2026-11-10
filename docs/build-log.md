@@ -325,3 +325,42 @@ I had hard-coded confidences (0.9 for any spelling fix, 0.85 for any chapter cla
 - **R011:** stored solution ends at |F₁₂| = |−F₂₁| (equal magnitudes, 1:1); now an explicit check (solution value must match the solvers' value or the fill does not auto-apply).
 - **R024:** solution ends at "W = 20 N"; now an explicit check (unit added to the question must be the unit the solution ends in).
 - **Confidence:** now computed from independent checks (`engine/confidence.py`, rule in PROMPTS.md). Added a second-opinion `confirm` step (gemini-3.5-flash, different from the gemini-3.8-flash reviewer) for every proposed text edit. Rerun: all 44 verdicts/repairs/routes unchanged; confidences now 0.75-0.98 with the checks listed per row.
+
+## 2026-11-10 ~18:30 IST: console first build (not yet committed)
+- Static console in `console/` (plain HTML/CSS/JS, vendored DOMPurify 3.2.4 + jsdiff 7.0.0, self-hosted Plex Sans/Mono + full STIX Two Math), data from `scripts/build_console_data.py`. Served locally via `.claude/launch.json` (python http.server on 127.0.0.1:8765).
+- Bugs caught while testing in the browser: (1) queue drawn by section but navigation followed urgency order, so J/K jumped between sections → array now sorted into visual order; (2) action bar overflowed (horizontal scroll) → wider decision pane, fitted grid; (3) stored solution HTML is wrapped in `<h3>`, so my `.diff-side h3` header style coloured the whole solution → own class; (4) **UX bug:** after an action the console moves on, but "U" acted on the *new* case (and on an auto-applied case would have reverted a change the user never touched). U now undoes your last action wherever it was and jumps back to it; reverting an automatic change is Reject / the row's Undo button.
+- Not done yet: dark-mode screenshot review, WCAG contrast script, vibe-check list, mobile pass.
+
+---
+
+## 2026-11-10 21:38 IST: PROMPT #6 (console feedback after trying it)
+
+````text
+Your limit reset. Do these in order, and commit after step 1 before anything else so the console work can't be lost.
+
+1. Commit the current console work to the build branch.
+2. Fix my notes below.
+3. The browser pane is visible again. Take screenshots of the main screen in light and dark mode and review them against docs/DESIGN.md.
+4. Run the WCAG AA contrast script on every colour pair (including the new selected-row colours), fix any failures, and tell me what changed.
+5. Go through the "vibe coded" list in DESIGN.md item by item and tell me the result for each.
+6. Do only a quick phone-width check. Fix anything broken, but don't redesign, since the console is desktop first.
+7. Commit, then stop at checkpoint 4 (before deploying).
+
+My notes from trying the console:
+- Replace the group labels with the specific problem, in plain words:
+  "Answer key wrong", "Option D missing", "Option C blank", "Missing data",
+  "No correct option", "Figure missing", "Identical options",
+  "Wrong chapter", "Syllabus check", "Spelling", "Exam tag", "Raw code showing",
+  "Wrong solution", "Wrong type". Never "Unsolvable" or "Filing".
+  Urgency is shown by the order and the section, not by the label name.
+- Right panel title: show the specific problem (e.g. "Option D missing"), not "Option / Defect".
+  Remove the extra "Needs your decision." line.
+- When there is no proposed fix, make the main action clear: "Write fix" (opens the editor)
+  and "Mark as sent to content team". Don't show a plain "Approve" with nothing to approve.
+  On every case, the button labels must say exactly what will happen
+  (e.g. "Approve fix", "Keep as is", "Approve reply").
+- Applied automatically list: tags must stay on one line; move the Undo button so it
+  doesn't squeeze the tag.
+- Selected queue row: dark text on bright teal is hard to read. Use a subtle tinted
+  background with a teal left marker or text instead, and check its contrast.
+````

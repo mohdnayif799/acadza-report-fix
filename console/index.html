@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report review</title>
+  <meta name="description" content="Faculty console for reviewing AI-triaged student error reports on Acadza questions.">
+  <link rel="preload" href="fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/stix-two-math-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <h1 class="brand">Report review</h1>
+      <p class="progress" id="progress" aria-live="polite"></p>
+      <p class="source" id="source"></p>
+      <div class="top-actions">
+        <button type="button" class="btn-quiet" id="open-log">Audit log <kbd>L</kbd></button>
+        <button type="button" class="btn-quiet" id="open-help">Shortcuts <kbd>?</kbd></button>
+      </div>
+    </header>
+
+    <main class="panes">
+      <nav class="queue" id="queue" aria-label="Cases"></nav>
+      <article class="case" id="case" aria-live="polite"></article>
+      <aside class="decision" id="decision" aria-label="Decision">
+        <div class="decision-body" id="decision-body"></div>
+        <div class="actionbar" id="actionbar">
+          <button type="button" class="btn-primary" data-action="approve">Approve <kbd>A</kbd></button>
+          <button type="button" class="btn" data-action="edit">Edit <kbd>E</kbd></button>
+          <button type="button" class="btn" data-action="reject">Reject <kbd>R</kbd></button>
+          <button type="button" class="btn" data-action="undo">Undo <kbd>U</kbd></button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="drawer" id="log" role="dialog" aria-modal="true" aria-labelledby="log-title" hidden>
+    <div class="drawer-head">
+      <h2 id="log-title">Audit log</h2>
+      <button type="button" class="btn" id="export-log">Export JSON</button>
+      <button type="button" class="btn-quiet" id="close-log">Close <kbd>Esc</kbd></button>
+    </div>
+    <p class="note">Stored in this browser only (localStorage). Export to keep a copy or share it.</p>
+    <div class="drawer-body" id="log-body"></div>
+  </div>
+
+  <div class="dialog" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+    <h2 id="help-title">Keyboard shortcuts</h2>
+    <dl class="keys">
+      <dt><kbd>J</kbd> / <kbd>K</kbd></dt><dd>Next / previous case</dd>
+      <dt><kbd>A</kbd></dt><dd>Approve</dd>
+      <dt><kbd>E</kbd></dt><dd>Edit the proposed change (or the reply when nothing changes)</dd>
+      <dt><kbd>R</kbd></dt><dd>Reject (on an automatic change: revert it)</dd>
+      <dt><kbd>U</kbd></dt><dd>Undo your last action, wherever it was</dd>
+      <dt><kbd>L</kbd></dt><dd>Open the audit log</dd>
+      <dt><kbd>Ctrl</kbd> + <kbd>Enter</kbd></dt><dd>Save an edit and approve</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Close or cancel</dd>
+    </dl>
+    <button type="button" class="btn" id="close-help">Close <kbd>Esc</kbd></button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="vendor/purify-3.2.4.min.js"></script>
+  <script src="vendor/diff-7.0.0.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
