@@ -396,3 +396,9 @@ Then, without stopping:
 
 Commit each step and stop when 1 to 7 are done.
 ````
+
+## 2026-11-10 ~21:55 IST: deployed
+- The Vercel MCP tools can only upload files as base64 typed into the call (~1 MB of fonts here), so I used the Vercel CLI (pinned `vercel@65.4.0` via npx). The user approved the device sign-in in their browser.
+- Deployed **only `console/`** (`vercel link --project acadza-report-review`, `vercel deploy --prod`). `vercel link` wrote a `.env.local` with a short-lived OIDC token into `console/`; I deleted it and added `console/.vercelignore` (`.env*`, `.vercel`), verified `/.env.local` returns 404 on the live site.
+- `console/vercel.json`: CSP `default-src 'self'` (no inline scripts/styles needed), nosniff, referrer and permissions policies, `no-cache` on `/data/*`.
+- Production URL: https://acadza-report-review.vercel.app (stable project domain, not a preview URL). Logged-out curl: `/` 200, `/data/cases.json` 200, `/app.js` 200, fonts 200. Default Deployment Protection covers preview/deployment URLs only, so the production domain is public. Opened in a fresh browser tab: 39 cases render, MathML + fonts load, no console errors under the CSP.
