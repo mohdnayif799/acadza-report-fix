@@ -372,3 +372,27 @@ My notes from trying the console:
 - AI-WRONG (small, my patch script): writing a regex through a Python heredoc turned `\b` into backspace characters, so "Option D missing" rendered as "Option  missing". Caught by printing the generated labels.
 - `scripts/check_contrast.py` reads the tokens from `console/styles.css`: 34 text/background pairs (17 per theme, incl. selected row, hover, urgent, diff, primary button, toast): all ≥ 4.5:1; lowest 5.36 (dark secondary text on the selected row). No colour changes needed.
 - Vibe-coded list checked by grep + screenshots (all clean). Phone width (375px): no horizontal overflow, panes stack; nothing to fix.
+
+---
+
+## 2026-11-10 21:48 IST: PROMPT #7 (deploy + docs)
+
+````text
+Yes, deploy now.
+
+1. Deploy only the console (static files) to Vercel production. Don't upload .env, cache/, data/ or engine code.
+2. Make sure the production URL opens for anyone without logging in (check Deployment Protection). Test it from a logged-out request: the page and its data file must both return 200. It has to stay up for 7 days, so use the production URL, not a preview link.
+3. Give me the live URL.
+
+Then, without stopping:
+4. Write the full PROMPTS.md:
+   - every in-product prompt verbatim with its versions and why each changed
+   - my prompts to you, verbatim, from docs/build-log.md (key ones in full, the rest summarised)
+   - at least 3 real moments the AI was wrong and how each was caught
+   - the design decisions log
+5. Write README.md with the live URL, how to run, architecture, and honest limits (precomputed results, audit log stored in the browser).
+6. Draft PRODUCT.md (max 1 page). I will rewrite it in my own words, so keep it plain and short.
+7. Merge plan: tell me how you'll get the build branch onto main for the public repo. I'll create the empty public GitHub repo myself. Don't push until I give you the repo URL.
+
+Commit each step and stop when 1 to 7 are done.
+````
