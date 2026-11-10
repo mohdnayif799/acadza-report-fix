@@ -227,3 +227,101 @@ Next:
 
 [DESIGN.md brief pasted in full; saved verbatim as docs/DESIGN.md, not duplicated here]
 ````
+
+## 2026-11-10 ~17:15 IST: AI-WRONG #5 (guard had two safety gaps, caught by automated security review)
+An automated security review of commit `22e53ca` flagged `engine/guard.py`:
+1. **Stored XSS via model-written edits.** `replace` text goes into question/solution HTML that students see, and nothing checked the markup it added (`<script>`, `onerror=`, `javascript:`).
+2. **Proof gate bypass.** Only edits to the `answer` field needed independent proof. An `option_repair` that rewrites a filled option, or a `stem_data`/`markup_leak` edit that changes a number, can change which answer is correct without touching `answer`.
+
+Both valid. Fixed in new `engine/edit_rules.py`:
+- Markup allowlist for added content (MathML + br/span/sup/sub/b/i/p/h3; attributes xmlns/display/mathvariant/... and `style` only as a plain colour). No `on*`, no `javascript:`/`data:`/`url(`.
+- `option_repair` and `stem_data` added to the proof-required set. `option_repair` may only fill a blank or missing option, never rewrite a filled one. `markup_leak`/`notation` must keep the same digits. `stem_data` may only add numbers that the stored solution states. `exam_reference`/`noise` may only delete a span that matches an exam tag / noise pattern. `answer_form` may not add numbers.
+- 13 regression tests in `tests/test_edit_rules.py`. The console will also sanitise with DOMPurify (defence in depth).
+- **Why I missed it:** I designed the guard around the taxonomy's *field* scopes and treated "answer changes" as "edits to the answer field". The real invariant is "anything that can change which answer is correct".
+
+## 2026-11-10 ~17:35 IST: DECISION: model choice (probe on 6 known-answer questions)
+Key lists 24 generateContent models. Probed 4 as solver A (structured JSON) and 3 as solver B (Python code execution) on 6 questions whose correct handling I had worked out by hand: Q `68dea616` (key wrong, n=1), `695ee00b` (assertion-reason with no valid option), `68dea715` (sig-fig trap, 3113), `68e870ef` (key wrong, D), `68e87254` (blank keyed option, value 1:1), `68c8153c` (mcq A,B,D).
+
+| model | as A (reasoning) | as B (+ Python) |
+|---|---|---|
+| gemini-3.8-flash | 6/6 | 6/6 |
+| gemini-4-argon | 6/6 | not tried |
+| gemini-3.5-flash | 5/6: picked **D** on the assertion-reason trap (agreed with the flawed stored solution's conclusion without seeing it) | 6/6 |
+| gemini-2.5-pro | listed by `models.list()` but every call 404s | 404 |
+
+**Chosen:** solver A = `gemini-3.8-flash`; solver B = `gemini-3.5-flash` with code execution (different model *and* different method; the same model that fell for the trap in plain reasoning got it right when forced to compute). Reviewer = `gemini-3.8-flash`, cheap (claims, replies) = `gemini-3.5-flash-lite`. `gemini-4-argon` dropped: equally accurate but a codename with no stability signal; I'd rather pin a named release. All names are env-overridable.
+- AI-WRONG (minor): my plan named `gemini-2.5-pro` as solver B; it is listed but unusable with this key. Caught by the probe's 404s.
+
+## 2026-11-10 ~18:05 IST: first full run (v1 prompts) and what was wrong with it
+`python -m engine.pipeline`: 44 rows, 0 validation errors, 2m15s. Compared every row with my hand analysis from turn 1:
+
+### AI-WRONG #6: reviewer never reported what the stored solution concludes (schema problem, caught by reading the evidence)
+- All five wrong-key rows (R001-R005) came out `faculty_review` at 0.75 with evidence "the stored solution reaches no clear answer", although the solutions plainly end at 50 V, 4800 N/m², q/(2ε₀).
+- Cause: `solution_final_answer` had the JSON type `["string","array","null"]`; the reviewer returned `null` for **every** question and put the result only in `solution_final_value` ("50 V", "4800 N/m^2"). My code only trusted the letter field, so "two solvers + solution agree" became "two solvers, solution unclear" and the confidence rule downgraded correct fixes. The evidence text was then *false*, which is worse than a low score.
+- Fix: schema field is now a plain string (letters "A" / "A,B,D" / number, "" if none), prompt v2 tells the reviewer to map the solution's final result to the option or to the asked-for number, and code falls back to matching `solution_final_value` against option text.
+
+### AI-WRONG #7: reviewer missed "Canolla" (R040)
+- R040 ("wrong") picked a run-together word in the solution ("riceis"). The reviewer found five such solution typos but not the misspelt option (B) "Canolla" (should be Canola), the defect a student would actually see.
+- Fix: reviewer v2 asks for an option-by-option spelling pass including proper nouns and organism/crop names; for vague reports the decision rule now prefers defects in the question (what the student sees) over the solution.
+
+### My bug: check candidate without an edit blocked the reviewer's edit (R024)
+- The unit check created an `answer_form` candidate with no edit; the reviewer's candidate with a valid edit (`... is equal to` → `... is equal to (in N)`) was skipped because the topic was "already covered". Fixed: a reviewer candidate with an edit replaces a no-edit check candidate of the same topic.
+
+### AI-WRONG #8: student replies (caught by reading all 44)
+- R011: "**Bhai**, you are completely right": assumes the student's gender.
+- R004: opens "**Tera answer bhi galat hai**" ("your answer is also wrong"): leads with the negative although the student was right that the key was wrong; "tera" is too blunt.
+- R027 (injection): includes LaTeX (`$L_0 = 100\text{ cm}$`) and guesses at the student's working.
+- R017 (already fixed) was flagged by my own "says fixed but nothing applied" check, a false alarm: faculty really did fix it earlier.
+- Fix: reply prompt v2 (lead with what they got right; no gendered or over-familiar address: bhai/bro/didi/tu/tera; no LaTeX or `$`; plain maths), injection replies get no comment and no "key idea", already_fixed gets its own status, and the code check now also flags gendered words and LaTeX.
+
+## 2026-11-10 ~18:20 IST: second run (reviewer v2, reply v2): all 44 rows match the hand analysis
+- `solution_final_answer` now filled for 41/43 questions (was 0/43). Wrong-key rows R001-R005 are `auto_apply` at 0.96 (two solvers + stored solution agree). R040 now picks option (B) "Canolla" → "Canola". R024 gets its `(in N)` edit.
+
+### AI-WRONG #9: a stem_data edit smuggled in a grammar change, and the guard let it through (caught by reading the edits)
+- R007/R008 edit: `"an inductance are connected"` → `"an inductance of 95.5 mH is connected"`. The stem is "A resistance ... and an inductance **are** connected", so "are" was right; the reviewer reworded while inserting the value.
+- The guard checked that the added number (95.5) is in the solution but not that *nothing else* changed.
+- Fix: `stem_data` edits must be a pure insertion (or change only a number); reviewer v3 says "keep every other word exactly as it is". Regression test uses the exact reviewer output.
+
+## 2026-11-10 ~18:45 IST: R018/R019 regression, reply v3, and bonus-list verification
+
+### DECISION: solution rewrite triggered by "can't fix surgically", not by the reviewer's label
+After reviewer v3, R018/R019 fell back to faculty_review. v2 had labelled Q22's solution "belongs_to_other_question" (→ rewrite); v3 labelled the same thing "wrong_step" with a quote spanning MathML, which cannot be anchored in the raw HTML, so no edit. A rule keyed on which of two near-synonymous labels the model picks is fragile. Now: if any wrong_step/factual_error cannot be anchored and the key is confirmed by both solvers, rewrite the solution (taxonomy: solution_fix "belongs to another question", solution_missing "write one ending in the keyed answer"). The same reviewer output proposed the correction `E = \frac{h^2}{2m\lambda^2}`: raw LaTeX that would itself be a markup_leak. Guard now rejects any replace that adds `\command` or `^`.
+
+### DECISION: replies on gemini-3.5-flash, not flash-lite; reply prompt v3
+flash-lite followed the v2 rules only partly (R004 still opened with "Aapka answer bhi thoda alag tha"). Replies are 44 short calls and are what students actually read, so they moved one tier up; claim labels stay on flash-lite. v3: partly-right replies must open with what the student got right; "wrong" replies name the specific step by comparing the student's claimed value with the full independent working (v2 passed only the first line, which gave R031/R035 irrelevant hints); `change_made` passes the real edit (R040 said the error was in "Canola", the corrected word). R034 (unsound) is now "partly right": the question is broken, but the assertion really is false (I = 2I₀). A tiny code pass turns `t^2`, `2pi`, `theta_1` into t², 2π, θ1.
+
+### AI-WRONG #10: my MathML linearizer invented "()" defects (caught by verifying the bonus list against raw HTML)
+- Reviewer v3 reported "extraneous empty parentheses" in Q `68dea715` ('7.203()'), `68dea87d` ('volt ()^(−1)') and `60f744b3` ('40()'). The raw HTML is fine: Acadza puts the power on the closing fence, `<mo>(</mo>7.203<msup><mo>)</mo><mn>2</mn></msup>`, which browsers draw as (7.203)². My `_wrap()` bracketed the single ")" → "(7.203())^2". So the solvers and reviewer had been reading garbled maths, and the reviewer correctly reported what it was shown.
+- Fix: single symbols (and empty bases) are never wrapped. Regression test on Q `68dea715`. Rerun: affected solves re-ran (fresh cache keys); all 44 rows unchanged.
+- Bonus list fixes: (1) it excluded every candidate sharing a *repair type* with a used one, which hid "prominant", "Maceus" and five run-together words; now only the exact candidate a report used is excluded; (2) items on a field that a chosen fix rewrites wholesale are dropped (Q22 `\AA`); (3) the reviewer re-reporting the code-found `&` leak is dropped; (4) Q17 "unsound" (both solvers see two correct options) is the identical-options defect already used by R015, so it is suppressed.
+- Hand-verified against raw HTML: Q `68dea657` solution has `<mtext> eqcu </mtext>` / `eqch` for "each"; Q `6062ec84` solution has `<mi>A</mi><mi>C</mi>` for °C (twice) and `It&rsquo;s length`; Q `6956d7e9` options put the unit inside `<msqrt>`, the solution has `&minus;` for `=` in `v = dx/dt = Aω cos ωt` and `= rad/s` after π/8; Q `617fa18e` has `of<span ...>leaf` (renders "ofleaf").
+
+### My bug: token log corrupted by concurrent writes (caught when the cost summary failed to parse)
+`cache/token_log.jsonl` had interleaved lines: 8 worker threads appended without a lock. Fixed with a lock. The corrupted first-run log is kept as `cache/token_log.corrupt-2026-11-10.jsonl` for honesty; real totals now come from `scripts/cost_report.py`, which sums the usage stored in each cache file (one file = one paid call). All iterations so far: 489 paid calls, ~696k tokens (incl. ~222k thinking). A full rerun: 216 calls, all cache hits, 0 tokens.
+
+---
+
+## 2026-11-10 17:33 IST: PROMPT #5 (checkpoint 2 feedback)
+
+````text
+The 44 rows look good. Before committing:
+
+1. R026 (syllabus): don't leave it at 0.60. Check the topic of that question against the current official NEET UG syllabus (NMC). If the topic is in the syllabus, make it no_error with a reply that says so kindly. If it was removed or isn't in it, keep defect / syllabus / faculty_review and put the syllabus evidence in the evidence field. Tell me which and why.
+2. R011: confirm the stored solution also ends in 1:1, not just the two solvers. If the solution says something else, send it to faculty_review.
+3. R024: confirm the solution's final answer is in N before adding "(in N)".
+4. Confidence: tell me in two lines how it's computed. If it's a fixed number per category, make it come from the evidence instead (for example, how many of solver A, solver B and the stored solution agree, and whether the guard changed anything), and document the rule in PROMPTS.md.
+5. Show me the student replies for R003, R004, R021, R027, R029, R033, R039 and R041 so I can check the tone.
+
+Your two DESIGN.md additions are approved: a third section "No change (reply only)" at the bottom, and E edits the student reply on no-change cases.
+
+Then commit to the build branch. After that, start the console following docs/DESIGN.md and the frontend-design skill, and stop at checkpoint 3.
+````
+
+### AI-WRONG #11 (user correction): confidence was a fixed number per category
+I had hard-coded confidences (0.9 for any spelling fix, 0.85 for any chapter claim, 0.6 for syllabus, 0.96/0.75 for answer keys depending only on the stored solution). That looks precise but carries no information about *this* case. Caught by the user at checkpoint 2. Replaced below by a rule computed from independent checks.
+
+## 2026-11-10 ~18:00 IST: checkpoint-2 follow-ups done
+- **R026 (syllabus):** the fetch agent got 404s on every NMC PDF path and could not decode the PDF it finally got; I found the official link on nmc.org.in's own "What's New" page (23/12/2025, "Updated syllabus for NEET(UG)-2026") and extracted the text locally with pypdf. Unit 7 Evolution lists origin of life, evidences, Darwin, modern synthetic theory, variation + natural selection, gene flow/drift, Hardy-Weinberg, adaptive radiation, human evolution; "phylogeny", "cladistics", "outgroup", "ancestral state" appear nowhere. The question tests ancestral-state inference by outgroup comparison → stays defect / syllabus / faculty_review. Built into the engine (not a hand-edited row): official text in `engine/reference/`, a syllabus prompt run on two models, code verifies the quoted syllabus line is verbatim. NEET UG 2027 syllabus not published as of today, so 2026 is current.
+- **R011:** stored solution ends at |F₁₂| = |−F₂₁| (equal magnitudes, 1:1); now an explicit check (solution value must match the solvers' value or the fill does not auto-apply).
+- **R024:** solution ends at "W = 20 N"; now an explicit check (unit added to the question must be the unit the solution ends in).
+- **Confidence:** now computed from independent checks (`engine/confidence.py`, rule in PROMPTS.md). Added a second-opinion `confirm` step (gemini-3.5-flash, different from the gemini-3.8-flash reviewer) for every proposed text edit. Rerun: all 44 verdicts/repairs/routes unchanged; confidences now 0.75-0.98 with the checks listed per row.
