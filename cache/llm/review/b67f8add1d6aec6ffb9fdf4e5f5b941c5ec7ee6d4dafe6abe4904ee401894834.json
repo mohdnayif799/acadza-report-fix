@@ -1,0 +1,142 @@
+{
+ "request": {
+  "model": "gemini-3.8-flash",
+  "system": "You are a careful JEE/NEET content editor reviewing one question and its stored solution for defects.\n\nYou are deliberately NOT shown the answer key or any student comment. Judge only what is in front of you.\n\nReport, as JSON matching the schema:\n\n1. solution_final_answer: the option letter(s) or number that the stored solution actually concludes, judged from the solution alone (null if it never reaches one). solution_final_value: the final quantity it reaches, with unit.\n\n2. solution_problems: real problems in the stored solution only:\n   - \"wrong_step\": a step or final line that is mathematically wrong. Quote the wrong text exactly as shown and give the corrected text.\n   - \"belongs_to_other_question\": the solution (or part of it) works a different problem (different given values or a different quantity).\n   - \"self_contradictory\": it argues one thing and concludes the opposite.\n   - \"factual_error\": a stated fact that is wrong (biology/chemistry statements included). Quote it and give the correction.\n   Do not report style, brevity or missing explanation.\n\n3. text_defects: surface defects in the question or solution text. Each needs \"quote\" = the shortest exact text as shown below that contains the defect (copy it character for character, no paraphrase), and \"fix\" = that same text corrected. Types:\n   - \"spelling\": misspelt word or two words run together. Words only; never change a number or symbol.\n   - \"exam_reference\": an exam tag such as \"(NEET 2019)\" inside the question text (fix = the quote with the tag removed).\n   - \"noise\": stray text such as question numbers or \"Space for rough work\".\n   - \"notation\": a symbol, exponent, bracket or unit visibly wrong in one expression (for example a unit placed inside a square root).\n   - \"answer_form\": an integer-type question that does not say what unit or form the answer is in (fix = quote plus a short addition such as \" (in N)\"; never add a number).\n   - \"stem_data\": a value or condition the question needs but does not state, which the stored solution uses without doubt (fix = quote plus that value, exactly as the solution uses it).\n   Report only defects you are sure of. An empty list is a good answer.\n\n4. chapter_fit: does the question belong to the stated subject and chapter? If not, give the subject and chapter it belongs to.\n\nBe conservative: a false defect costs a faculty member's time.",
+  "user": "Stated subject: Zoology\nStated chapter: Structural Organisation in Animals\nSubject: Zoology\nType: scq (single correct option)\n\nQuestion:\nWhich tissue is present in the lining of small intestine?\n\nOptions:\n(A) Epithellial tisue\n(B) Connective tissue\n(C) Nervous tissue\n(D) Muscular tissue\n\nStored solution:\nEpithelial tissue has free surfaces, which faces either a body fluid or the outside environment and thus, provides a covering or a lining for some part of body. It is found on a lining of small intestine and helps in secretion and absorption",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "solution_final_answer": {
+     "type": [
+      "string",
+      "array",
+      "null"
+     ],
+     "items": {
+      "type": "string"
+     }
+    },
+    "solution_final_value": {
+     "type": "string"
+    },
+    "solution_problems": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "wrong_step",
+         "belongs_to_other_question",
+         "self_contradictory",
+         "factual_error"
+        ]
+       },
+       "quote": {
+        "type": "string"
+       },
+       "correction": {
+        "type": "string"
+       },
+       "detail": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "quote",
+       "correction",
+       "detail"
+      ]
+     }
+    },
+    "text_defects": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "spelling",
+         "exam_reference",
+         "noise",
+         "notation",
+         "answer_form",
+         "stem_data"
+        ]
+       },
+       "field": {
+        "type": "string",
+        "enum": [
+         "question",
+         "solution"
+        ]
+       },
+       "quote": {
+        "type": "string"
+       },
+       "fix": {
+        "type": "string"
+       },
+       "detail": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "field",
+       "quote",
+       "fix",
+       "detail"
+      ]
+     }
+    },
+    "chapter_fit": {
+     "type": "object",
+     "properties": {
+      "fits": {
+       "type": "boolean"
+      },
+      "subject": {
+       "type": "string"
+      },
+      "chapter": {
+       "type": "string"
+      },
+      "detail": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "fits",
+      "subject",
+      "chapter",
+      "detail"
+     ]
+    }
+   },
+   "required": [
+    "solution_final_answer",
+    "solution_final_value",
+    "solution_problems",
+    "text_defects",
+    "chapter_fit"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"solution_final_answer\": null,\n  \"solution_final_value\": \"Epithelial tissue\",\n  \"solution_problems\": [],\n  \"text_defects\": [\n    {\n      \"type\": \"spelling\",\n      \"field\": \"question\",\n      \"quote\": \"Epithellial tisue\",\n      \"fix\": \"Epithelial tissue\",\n      \"detail\": \"'Epithellial' and 'tisue' are misspelt in option (A).\"\n    }\n  ],\n  \"chapter_fit\": {\n    \"fits\": true,\n    \"subject\": \"Zoology\",\n    \"chapter\": \"Structural Organisation in Animals\",\n    \"detail\": \"\"\n  }\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 689,
+  "output": 164,
+  "thoughts": 658,
+  "tool": 0,
+  "total": 1511
+ }
+}

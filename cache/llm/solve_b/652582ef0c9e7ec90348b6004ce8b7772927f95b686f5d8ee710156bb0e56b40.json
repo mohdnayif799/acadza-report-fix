@@ -1,0 +1,21 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Zoology\nType: scq (single correct option)\n\nQuestion:\nA biologist is trying to infer how five closely related species of snakes are related to one another. She noticed that some of the snakes have forked tongues and others do not. Which of the following would help her to distinguish their ancestral state?\n\nOptions:\n(A) She looks among snake fossils for evidences that being forked is a characteristic of the ancestor of this group, but determines no such fossils exists\n(B) She locates a specimen of a more distantly related snake to see if it has a forked tongue\n(C) She looks at a representative mammal species to see if it has a forked tongue\n(D) She flips a coin",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"B\",\n \"value\": \"Option (B)\",\n \"working\": \"To determine the ancestral state (plesiomorphy vs apomorphy) of a trait, evolutionary biologists use outgroup analysis.\\nLocating a more distantly related snake (outgroup) helps infer whether the trait was present in their common ancestor.\\nMammals are too distantly related, and option A states no fossils exist.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 437,
+  "output": 111,
+  "thoughts": 493,
+  "tool": 0,
+  "total": 1041
+ }
+}

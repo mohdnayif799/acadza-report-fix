@@ -1,0 +1,572 @@
+[
+  {
+    "reportId": "R001",
+    "questionId": "60f744b3f1b9bc7cc7b4a949",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": "C",
+      "replace": "A"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets A (50 V); solver B (gemini-3.5-flash + Python) gets A (50 V); the stored solution ends at A (50 V); the key says C.",
+    "student_reply": "You were right that the answer key was wrong and the correct option is (A) 50 V. Thank you for reporting this issue, we have fixed it now."
+  },
+  {
+    "reportId": "R002",
+    "questionId": "60f744b3f1b9bc7cc7b4a949",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": "C",
+      "replace": "A"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets A (50 V); solver B (gemini-3.5-flash + Python) gets A (50 V); the stored solution ends at A (50 V); the key says C.",
+    "student_reply": "You were right that the answer key was incorrect, thank you for bringing this to our attention. We have updated the correct answer to (A) 50 V now."
+  },
+  {
+    "reportId": "R003",
+    "questionId": "60f744b3f1b9bc7cc7b4a949",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": "C",
+      "replace": "A"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets A (50 V); solver B (gemini-3.5-flash + Python) gets A (50 V); the stored solution ends at A (50 V); the key says C.",
+    "student_reply": "You were completely right that the correct answer is (A) 50 V, and we have fixed the answer key now. Thank you for reporting this error."
+  },
+  {
+    "reportId": "R004",
+    "questionId": "68e870ef42c06737d6e565c4",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": "A",
+      "replace": "D"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets D (4800 N/m^2); solver B (gemini-3.5-flash + Python) gets D (4800 N/m^2); the stored solution ends at D (4800 N/m^2); the key says A.",
+    "student_reply": "Aap bilkul sahi the ki answer key galat thi, ise ab fix kar diya gaya hai. Correct answer (D) 4800 N/m² hai, halanki aapka calculated value 8225 isse alag hai."
+  },
+  {
+    "reportId": "R005",
+    "questionId": "68dea616d0cda73d07e93ae6",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": "2",
+      "replace": "1"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets 1 (1); solver B (gemini-3.5-flash + Python) gets 1 (1); the stored solution ends at 1 (q/(2ε_0)); the key says 2.",
+    "student_reply": "You were right that the answer key was wrong, thank you for pointing this out. The correct answer is 1 and the key has been fixed now."
+  },
+  {
+    "reportId": "R006",
+    "questionId": "696a866665252c04fc1f81c2",
+    "verdict": "defect",
+    "repair": "stem_data",
+    "edit": {
+      "field": "question",
+      "find": "The volume contraction of a solid copper cube, when subjected",
+      "replace": "The volume contraction of a solid copper cube, of edge length 10 cm, when subjected"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "The edge length of the cube (10 cm) is missing from the question text, but used in the stored solution. ('The volume contraction of a solid copper cube, when subjected' -> 'The volume contraction of a solid copper cube, of edge length 10 cm, when subjected')",
+    "student_reply": "You were completely right that the edge length was missing, thank you for pointing this out. We have updated the question to include the 10 cm edge length so it can be solved properly now."
+  },
+  {
+    "reportId": "R007",
+    "questionId": "60f742f6660d187cc13a8078",
+    "verdict": "defect",
+    "repair": "stem_data",
+    "edit": {
+      "field": "question",
+      "find": "and an inductance are connected",
+      "replace": "and an inductance of 95.5 mH are connected"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "The numerical value of the inductance is missing from the question stem, but the stored solution assumes L = 95.5 mH. ('and an inductance are connected' -> 'and an inductance of 95.5 mH are connected')",
+    "student_reply": "Aap bilkul sahi the, question mein inductance ki value missing thi. Isse point out karne ke liye thank you, humne question mein 95.5 mH ki value add karke ise fix kar diya hai."
+  },
+  {
+    "reportId": "R008",
+    "questionId": "60f742f6660d187cc13a8078",
+    "verdict": "defect",
+    "repair": "stem_data",
+    "edit": {
+      "field": "question",
+      "find": "and an inductance are connected",
+      "replace": "and an inductance of 95.5 mH are connected"
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "The numerical value of the inductance is missing from the question stem, but the stored solution assumes L = 95.5 mH. ('and an inductance are connected' -> 'and an inductance of 95.5 mH are connected')",
+    "student_reply": "You were right that data was missing from the question, and thank you for bringing this to our attention. We have fixed the question stem now by adding the missing inductance value of 95.5 mH."
+  },
+  {
+    "reportId": "R009",
+    "questionId": "622f08d7b70e4b50e4500a1b",
+    "verdict": "defect",
+    "repair": "option_repair",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.88,
+    "evidence": "Option(s) D absent; question shows only A, B, C. Nothing in the solution or data shows what it was, so filling it means inventing a distractor: authored content, like identical_options (auto: false). Keyed answer (C) is unaffected.",
+    "student_reply": "You were right that Option D was missing, thank you for reporting it. We have sent this question to our faculty so they can update it."
+  },
+  {
+    "reportId": "R010",
+    "questionId": "622f08d7b70e4b50e4500a1b",
+    "verdict": "defect",
+    "repair": "option_repair",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.88,
+    "evidence": "Option(s) D absent; question shows only A, B, C. Nothing in the solution or data shows what it was, so filling it means inventing a distractor: authored content, like identical_options (auto: false). Keyed answer (C) is unaffected.",
+    "student_reply": "You were right that option D was missing, thank you for bringing this to our attention. We have sent this question to our faculty team to add the missing option and fix the display."
+  },
+  {
+    "reportId": "R011",
+    "questionId": "68e872546e45ba37dcc16bc0",
+    "verdict": "defect",
+    "repair": "option_repair",
+    "edit": {
+      "field": "question",
+      "find": "(C) <br />",
+      "replace": "(C) <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mrow><mn>1</mn><mi>:</mi><mn>1</mn></mrow></math><br />"
+    },
+    "route": "auto_apply",
+    "confidence": 0.97,
+    "evidence": "Option (C) is blank but is the keyed answer. Solvers compute '1:1' / '1:1'; the stored solution reaches no clear answer (value '1:1'). Fill (C) with 1:1; stem unchanged.",
+    "student_reply": "Aap bilkul sahi the, option (C) blank tha. Point out karne ke liye thank you, humne option (C) mein 1:1 fill karke question fix kar diya hai."
+  },
+  {
+    "reportId": "R012",
+    "questionId": "61dffbec08489156b684bd22",
+    "verdict": "defect",
+    "repair": "spelling",
+    "edit": {
+      "field": "question",
+      "find": "Epithellial tisue",
+      "replace": "Epithelial tissue"
+    },
+    "route": "auto_apply",
+    "confidence": 0.88,
+    "evidence": "\"Epithellial\" and \"tisue\" are misspelled in option (A). ('Epithellial tisue' -> 'Epithelial tissue')",
+    "student_reply": "You were right about the spelling mistake in option A, thank you for pointing it out. We have fixed the typos from \"Epithellial tisue\" to \"Epithelial tissue\" now."
+  },
+  {
+    "reportId": "R013",
+    "questionId": "617fa18efd53ff1629ed890f",
+    "verdict": "defect",
+    "repair": "exam_reference",
+    "edit": {
+      "field": "question",
+      "find": "(NEET 2019) ",
+      "replace": ""
+    },
+    "route": "auto_apply",
+    "confidence": 0.88,
+    "evidence": "Exam tag '(NEET 2019)' in question text",
+    "student_reply": "You were right, and thank you for pointing this out. We have removed the extra NEET 2019 tag from the question text."
+  },
+  {
+    "reportId": "R014",
+    "questionId": "63765a28f1d8416ae0408d89",
+    "verdict": "defect",
+    "repair": "markup_leak",
+    "edit": {
+      "field": "question",
+      "find": "\\frac{7}{8}",
+      "replace": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mfrac><mn>7</mn><mn>8</mn></mfrac></math>"
+    },
+    "route": "auto_apply",
+    "confidence": 0.88,
+    "evidence": "Raw LaTeX '\\\\frac{7}{8}' in question",
+    "student_reply": "You were right about the code issue in the question, thank you for reporting it. We have fixed it now so 7/8 displays correctly."
+  },
+  {
+    "reportId": "R015",
+    "questionId": "6956d79788d7701e5617bc29",
+    "verdict": "defect",
+    "repair": "identical_options",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.94,
+    "evidence": "Options (B) and (C) are identical: '0 W'; a new distractor is authored content.",
+    "student_reply": "You were right that options (B) and (C) were identical, thank you for pointing this out. We have sent this question to our faculty to fix the duplicate option."
+  },
+  {
+    "reportId": "R016",
+    "questionId": "6263d75bdd44e265ef926d97",
+    "verdict": "defect",
+    "repair": "solution_fix",
+    "edit": {
+      "field": "solution",
+      "find": "a = 40 cm",
+      "replace": "a = 20 cm"
+    },
+    "route": "auto_apply",
+    "confidence": 0.97,
+    "evidence": "Solving 800 = 2 × a² gives a² = 400, which yields a = 20 cm, not 40 cm. ('a = 40 cm' -> 'a = 20 cm')",
+    "student_reply": "You were right, the correct answer is indeed 20 cm. We have updated the solution step and fixed the error now. Thank you for pointing this out!"
+  },
+  {
+    "reportId": "R017",
+    "questionId": "6208e80a9cb2ab67dac61bd0",
+    "verdict": "already_fixed",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.88,
+    "evidence": "Faculty fix logged 2026-11-07T10:42:00Z (Spelling mistake: 'mere' -> 'more' in options A-C; 'shurbs' -> 'shrubs'), after this report (2026-11-04T02:08:00Z); 'mere' no longer in the text",
+    "student_reply": "You were right about the spelling mistake in the options, and thank you for bringing it up. A teacher had already corrected those typos earlier, so the text is fully updated now."
+  },
+  {
+    "reportId": "R018",
+    "questionId": "612151a6a34397610a9a2e58",
+    "verdict": "defect",
+    "repair": "solution_fix",
+    "edit": {
+      "field": "solution",
+      "find": "<h3><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>5.469</mn><mi>&#x000D7;</mi><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>10</mn></mrow></msup><mi>m</mi><mo>&#x0003D;</mo><mn>5.47</mn><mi>\\AA</mi></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mi>&#x003BB;</mi><mo>&#x0003D;</mo><mfrac><mrow><mi>h</mi></mrow><mrow><mo stretchy=\"false\">&#x0007C;</mo><mi>p</mi><mo stretchy=\"false\">&#x0007C;</mo></mrow></mfrac><mo>&#x0003D;</mo><mfrac><mrow><mi>h</mi></mrow><mrow><mo stretchy=\"false\">&#x0007C;</mo><mi>I</mi><mo stretchy=\"false\">&#x0007C;</mo></mrow></mfrac></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>2.65</mn><mi>&#x000D7;</mi><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>18</mn></mrow></msup><mi>J</mi></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>16.8</mn><mi>e</mi><mi>V</mi></mrow></mstyle></math></h3>",
+      "replace": "<h3>The de-Broglie wavelength is given by λ = h / √(2mK), where K is the kinetic energy, m is the mass of the electron, and h is Planck's constant.<br/>Rearranging for kinetic energy gives K = h² / (2mλ²).<br/>Using standard constants, m = 9.1 × 10⁻³¹ kg, h = 6.63 × 10⁻³⁴ J s, and given λ = 0.3 nm = 3 × 10⁻¹⁰ m:<br/>K = (6.63 × 10⁻³⁴)² / [2 × (9.1 × 10⁻³¹) × (3 × 10⁻¹⁰)²] = 2.68 × 10⁻¹⁸ J.<br/>Converting to electron-volts: K = (2.68 × 10⁻¹⁸ J) / (1.6 × 10⁻¹⁹ J/eV) ≈ 16.8 eV.<br/>Hence, the answer is (B) 16.8 eV.</h3>"
+    },
+    "route": "auto_apply",
+    "confidence": 0.98,
+    "evidence": "Stored solution is unusable: The solution begins with an unrelated calculation ('=5.469×10^(-10)m=5.47\\AA') and corrupted formulas ('λ=h/(|p|)=h/(|I|)') before stating the kinetic energy. Rewritten to end in the confirmed key (B).",
+    "student_reply": "You were right that the solution belonged to another question, and thank you for reporting it. We have rewritten the step-by-step working for option (B) 16.8 eV, and it is fixed now."
+  },
+  {
+    "reportId": "R019",
+    "questionId": "612151a6a34397610a9a2e58",
+    "verdict": "defect",
+    "repair": "solution_fix",
+    "edit": {
+      "field": "solution",
+      "find": "<h3><math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>5.469</mn><mi>&#x000D7;</mi><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>10</mn></mrow></msup><mi>m</mi><mo>&#x0003D;</mo><mn>5.47</mn><mi>\\AA</mi></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mi>&#x003BB;</mi><mo>&#x0003D;</mo><mfrac><mrow><mi>h</mi></mrow><mrow><mo stretchy=\"false\">&#x0007C;</mo><mi>p</mi><mo stretchy=\"false\">&#x0007C;</mo></mrow></mfrac><mo>&#x0003D;</mo><mfrac><mrow><mi>h</mi></mrow><mrow><mo stretchy=\"false\">&#x0007C;</mo><mi>I</mi><mo stretchy=\"false\">&#x0007C;</mo></mrow></mfrac></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>2.65</mn><mi>&#x000D7;</mi><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>18</mn></mrow></msup><mi>J</mi></mrow></mstyle></math> <math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"inline\"><mstyle displaystyle=\"true\"><mrow><mo>&#x0003D;</mo><mn>16.8</mn><mi>e</mi><mi>V</mi></mrow></mstyle></math></h3>",
+      "replace": "<h3>The de-Broglie wavelength is given by λ = h / √(2mK), where K is the kinetic energy, m is the mass of the electron, and h is Planck's constant.<br/>Rearranging for kinetic energy gives K = h² / (2mλ²).<br/>Using standard constants, m = 9.1 × 10⁻³¹ kg, h = 6.63 × 10⁻³⁴ J s, and given λ = 0.3 nm = 3 × 10⁻¹⁰ m:<br/>K = (6.63 × 10⁻³⁴)² / [2 × (9.1 × 10⁻³¹) × (3 × 10⁻¹⁰)²] = 2.68 × 10⁻¹⁸ J.<br/>Converting to electron-volts: K = (2.68 × 10⁻¹⁸ J) / (1.6 × 10⁻¹⁹ J/eV) ≈ 16.8 eV.<br/>Hence, the answer is (B) 16.8 eV.</h3>"
+    },
+    "route": "auto_apply",
+    "confidence": 0.98,
+    "evidence": "Stored solution is unusable: The solution begins with an unrelated calculation ('=5.469×10^(-10)m=5.47\\AA') and corrupted formulas ('λ=h/(|p|)=h/(|I|)') before stating the kinetic energy. Rewritten to end in the confirmed key (B).",
+    "student_reply": "Aap bilkul sahi the ki solution me galat calculation thi, thank you issue point out karne ke liye. Humne solution ko rewrite karke ab fix kar diya hai."
+  },
+  {
+    "reportId": "R020",
+    "questionId": "68c8153cfb6b2f16e2d3ceaf",
+    "verdict": "defect",
+    "repair": "answer_key",
+    "edit": {
+      "field": "answer",
+      "find": [
+        "A, B, D"
+      ],
+      "replace": [
+        "A",
+        "B",
+        "D"
+      ]
+    },
+    "route": "auto_apply",
+    "confidence": 0.94,
+    "evidence": "Key is stored as ['A, B, D'], which no attempt can match. Solver A (gemini-3.8-flash) gets A, B, D (A, B, D); solver B (gemini-3.5-flash + Python) gets A, B, D (A, B, D), the same letters as the key once cleaned up: ['A', 'B', 'D'].",
+    "student_reply": "You were completely right, and thank you for bringing this to our attention. The answer key had a formatting glitch that incorrectly marked options A, B, and D as wrong, but it has been fixed now."
+  },
+  {
+    "reportId": "R021",
+    "questionId": "68f21caf941cda588bc04365",
+    "verdict": "defect",
+    "repair": "type_mismatch",
+    "edit": {
+      "field": "questionType",
+      "find": "mcq",
+      "replace": "scq"
+    },
+    "route": "auto_apply",
+    "confidence": 0.97,
+    "evidence": "Stored as multiple-correct (mcq) with key ['', 'B'], but only (B) is correct: Solver A (gemini-3.8-flash) gets B (1.44 min); solver B (gemini-3.5-flash + Python) gets B (1.44 minutes). Make it scq with key \"B\".",
+    "student_reply": "You were completely right that only option (B) is correct, and we have updated the question to single-choice now. Thank you for reporting this and helping us fix it!"
+  },
+  {
+    "reportId": "R022",
+    "questionId": "61ee6c9d90a1a968a168686b",
+    "verdict": "defect",
+    "repair": "spelling",
+    "edit": {
+      "field": "question",
+      "find": "Choroid plexux",
+      "replace": "Choroid plexus"
+    },
+    "route": "auto_apply",
+    "confidence": 0.88,
+    "evidence": "Misspelling of 'plexus'. ('Choroid plexux' -> 'Choroid plexus')",
+    "student_reply": "You were right about the spelling error, thank you for pointing it out. We have corrected \"Choroid plexux\" to \"Choroid plexus\" in the question."
+  },
+  {
+    "reportId": "R023",
+    "questionId": "68ecbacb2ec87a18deba1ad7",
+    "verdict": "defect",
+    "repair": "wrong_chapter",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.88,
+    "evidence": "Filed under Botany / The Living World; the content is Zoology / Neural Control and Coordination. The generation of action potentials and refractory periods in neurons is part of human physiology/neurophysiology under Zoology, not Botany.",
+    "student_reply": "You were right that this question belongs under Neural Control and Coordination rather than The Living World, and thank you for pointing it out. I have sent this to our faculty team to get the chapter tag corrected."
+  },
+  {
+    "reportId": "R024",
+    "questionId": "5fc60508028950133eac8963",
+    "verdict": "defect",
+    "repair": "answer_form",
+    "edit": {
+      "field": "question",
+      "find": "frictional force is equal to",
+      "replace": "frictional force is equal to (in N)"
+    },
+    "route": "auto_apply",
+    "confidence": 0.97,
+    "evidence": "The numerical question does not state the unit in which the answer should be provided. ('frictional force is equal to' -> 'frictional force is equal to (in N)')",
+    "student_reply": "You were right that the unit was missing in the question, thank you for reporting this. We have updated the text to specify that the answer should be in N, and it is fixed now."
+  },
+  {
+    "reportId": "R025",
+    "questionId": "622df25ab70e4b50e44ff837",
+    "verdict": "defect",
+    "repair": "diagram",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.75,
+    "evidence": "Question refers to a figure but has no image",
+    "student_reply": "You were right that the figure was missing, thank you for pointing it out. We have sent this question to our faculty team so they can add the image."
+  },
+  {
+    "reportId": "R026",
+    "questionId": "620e23cecc50543bc7db9186",
+    "verdict": "defect",
+    "repair": "syllabus",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.94,
+    "evidence": "Not in the syllabus: the question tests inferring ancestral character state using outgroup comparison in phylogenetics. NMC NEET (UG)-2026 syllabus, U-14023/19/NEET (UG Exam)/UGMEB, 22-12-2025; closest line: \"• Evolution: Origin of life; Biological evolution and evidences for biological evolution from Paleontology, comparative anatomy, embryology and molecular evidence); Darwin’s contribution, Modern Synthetic theory of Evolution; Mechanism of evolution- Variation (Mutation and Recombination) and Natural Selection with examples, types of natural selection; Gene flow and genetic drift; Hardy -Weinberg’s principle; Adaptive Radiation; Human evolution.\". Phylogenetic systematics, cladistics, and the use of outgroups to polarize character states (determining ancestral vs. derived traits) are beyond the scope of NCERT and the NEET UG syllabus. Faculty confirm; the question stays live meanwhile.",
+    "student_reply": "You were right that this question is out of the NEET syllabus, and thank you for flagging it. We have sent your report to our faculty team to review and update the question pool."
+  },
+  {
+    "reportId": "R027",
+    "questionId": "6062ec84518e9535e120c422",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets A (5.7 x 10^-5 /°C); solver B (gemini-3.5-flash + Python) gets A (5.7 x 10^-5 / °C), matching the key A; the stored solution agrees.",
+    "student_reply": "We re-checked this question and confirmed that option (A) 5.7 × 10⁻⁵ /°C is correct. As a result, no changes were made to the answer key or solution."
+  },
+  {
+    "reportId": "R028",
+    "questionId": "6956d7bb23cb221e570d6013",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets B (tan^-1(4)); solver B (gemini-3.5-flash + Python) gets B (tan^(-1)(4)), matching the key B; the stored solution agrees.",
+    "student_reply": "The question and answer key are correct. Equating the range and maximum height gives 2 cos θ = (sin θ)/2, which leads to tan θ = 4 rather than 2."
+  },
+  {
+    "reportId": "R029",
+    "questionId": "68e8734442c06737d6e56da4",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets A (0.8); solver B (gemini-3.5-flash + Python) gets A (0.8), matching the key A; the stored solution agrees.",
+    "student_reply": "The question and answer key of 0.8 are correct, so no change was made. Substituting F = 100μ + 10 into 2F - 100μ = 100 gives 100μ = 80, which leads to μ = 0.8."
+  },
+  {
+    "reportId": "R030",
+    "questionId": "6956d7e988d7701e5617bd3e",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets D (8√2 m); solver B (gemini-3.5-flash + Python) gets D (8\\sqrt{2} m), matching the key D; the stored solution agrees.",
+    "student_reply": "The question and answer key are correct. Evaluating the velocity at t = 2 s gives v(2) = A(π/8)cos(45°) = π, which yields an amplitude of A = 8√2 m rather than 4√2 m."
+  },
+  {
+    "reportId": "R031",
+    "questionId": "68dea619d0cda73d07e93aee",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets 4 (4 s); solver B (gemini-3.5-flash + Python) gets 4 (4 s), matching the key 4; the stored solution agrees.",
+    "student_reply": "Question aur answer key bilkul correct hain. Dots ko pehli baar align hone ke liye angular displacement ka difference θ1 - θ2 = 2π hona zaroori hai, jisse t² = 16 aur t = 4 seconds milta hai."
+  },
+  {
+    "reportId": "R032",
+    "questionId": "68dea7c2387eea3d0d95f9bb",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets 8 (8 cm); solver B (gemini-3.5-flash + Python) gets 8 (8 cm), matching the key 8; the stored solution agrees.",
+    "student_reply": "Question ka answer key bilkul correct hai. Aapka answer 0.08 meters mein hai, jabki calculate karne par final shift 80 mm yani 8 cm aati hai."
+  },
+  {
+    "reportId": "R033",
+    "questionId": "68dea715387eea3d0d95f790",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets 3113 (3113); solver B (gemini-3.5-flash + Python) gets 3113 (3113), matching the key 3113; the stored solution agrees.",
+    "student_reply": "The question and stored answer of 3113 are correct. Because the side length 7.203 m has 4 significant digits, the surface area needs to be rounded to 4 significant figures (311.3 m²), which makes 10A equal to 3113."
+  },
+  {
+    "reportId": "R034",
+    "questionId": "695ee00b88d7701e561aabc5",
+    "verdict": "defect",
+    "repair": "unsound",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.94,
+    "evidence": "Both solvers find no valid option as written (Both Assertion (A) and Reason (R) are false statements. The given options do not include an option where both A and R are false.; Both Assertion (A) and Reason (R) are false, but there is no option stating both are false.). the stored solution ends at D (Assertion (A) is false, Reason (R) is true). Faculty must re-author.",
+    "student_reply": "You were right that this question has a problem. Both the Assertion and Reason are actually false, meaning none of the given options are correct. For a phase difference of π/2, the intensity becomes 2I₀ rather than staying the same, so we have sent this to our faculty to re-author."
+  },
+  {
+    "reportId": "R035",
+    "questionId": "66fe9dbe22132e5a70a3e579",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets D (Relaxin - Inhibin); solver B (gemini-3.5-flash + Python) gets D (Relaxin and Inhibin), matching the key D; the stored solution agrees.",
+    "student_reply": "The question and answer key are correct. Relaxin relaxes pelvic ligaments during childbirth while inhibin suppresses FSH secretion, so they perform different functions rather than opposing each other."
+  },
+  {
+    "reportId": "R036",
+    "questionId": "60ca4feb6420652745f55522",
+    "verdict": "display_issue",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Stored content is complete (all options and data present) and both solvers solved it as stored; this is a rendering or loading problem on the device.",
+    "student_reply": "The question content is complete with all options present in our system, so no changes were made. This appears to be a rendering or loading issue on your device."
+  },
+  {
+    "reportId": "R037",
+    "questionId": "68c9ae5afb6b2f16e2d43b1c",
+    "verdict": "display_issue",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Stored content is complete (all options and data present) and both solvers solved it as stored; this is a rendering or loading problem on the device.",
+    "student_reply": "The question content is complete on our system, so the delay was due to a rendering or loading issue on your device. No changes were made to the question."
+  },
+  {
+    "reportId": "R038",
+    "questionId": "68f21df0941cda588bc0470b",
+    "verdict": "app_issue",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.88,
+    "evidence": "Platform behaviour (how the attempt was recorded), not the question content; route to the app team.",
+    "student_reply": "We checked your report and found this was a platform recording issue rather than an error in the question content itself. We have passed this feedback to our app team to investigate how attempts are saved."
+  },
+  {
+    "reportId": "R039",
+    "questionId": "68c801bc1b1dbc16dc93bf2b",
+    "verdict": "language_mode",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.88,
+    "evidence": "Student wants another language; the question exists only in English.",
+    "student_reply": "Yeh question abhi sirf English mein hi available hai. Is wajeh se isme koi change nahi kiya gaya hai."
+  },
+  {
+    "reportId": "R040",
+    "questionId": "6264197209f4fd65f58f5707",
+    "verdict": "defect",
+    "repair": "spelling",
+    "edit": {
+      "field": "question",
+      "find": "Canolla",
+      "replace": "Canola"
+    },
+    "route": "auto_apply",
+    "confidence": 0.88,
+    "evidence": "Misspelling of canola. ('Canolla' -> 'Canola')",
+    "student_reply": "You were right that there was an error in the question text. We have corrected the spelling of \"Canola\" and fixed it now. Thank you for bringing this to our attention!"
+  },
+  {
+    "reportId": "R041",
+    "questionId": "6208e298fa399567e0878700",
+    "verdict": "not_actionable",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.98,
+    "evidence": "Comment gives nothing to act on, and all checks on this question came back clean.",
+    "student_reply": "All checks on this question came back clean, so no changes were made. If you noticed a specific issue, please submit a new report with the details so we can check it for you."
+  },
+  {
+    "reportId": "R042",
+    "questionId": "63c7cce12981ed154ee92c94",
+    "verdict": "defect",
+    "repair": "wrong_chapter",
+    "edit": null,
+    "route": "faculty_review",
+    "confidence": 0.88,
+    "evidence": "Filed under Physics / Geometrical optics and optical instruments; the content is Physics / Electromagnetic waves. Displacement current and capacitor charging belong to Electromagnetic Waves (or Capacitance), not Geometrical optics and optical instruments.",
+    "student_reply": "You are right that this question was tagged under the wrong chapter, and thank you for reporting it. It belongs in Electromagnetic Waves instead of Geometrical Optics, so we have sent this to our faculty to update the chapter mapping."
+  },
+  {
+    "reportId": "R043",
+    "questionId": "636283dbe3770c24f866e6d6",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets B (4:1); solver B (gemini-3.5-flash + Python) gets B (4:1), matching the key B; the stored solution agrees.",
+    "student_reply": "The question and answer key are correct. Although the bigger drop has a larger surface area, its total charge increases by a factor of 64 while its area increases by 16, resulting in a surface charge density ratio of 4:1."
+  },
+  {
+    "reportId": "R044",
+    "questionId": "68dea577d0cda73d07e9391c",
+    "verdict": "no_error",
+    "repair": null,
+    "edit": null,
+    "route": "no_change",
+    "confidence": 0.94,
+    "evidence": "Solver A (gemini-3.8-flash) gets 14 (14 V); solver B (gemini-3.5-flash + Python) gets 14 (14 V), matching the key 14; the stored solution agrees.",
+    "student_reply": "The question and answer key are correct. You found the potential at point P (22 V), but the question asks for the potential difference between points P and S (22 V - 8 V = 14 V)."
+  }
+]

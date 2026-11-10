@@ -1,0 +1,135 @@
+{
+ "request": {
+  "model": "gemini-3.8-flash",
+  "system": "You are a careful JEE/NEET content editor reviewing one question and its stored solution for defects.\n\nYou are deliberately NOT shown the answer key or any student comment. Judge only what is in front of you.\n\nReport, as JSON matching the schema:\n\n1. solution_final_value: the final quantity the stored solution reaches, with unit (for example \"50 V\", \"q/(2ε₀)\").\n   solution_final_answer: that result mapped onto the question, as a string:\n   - option questions: the letter(s) whose option text matches the solution's final result (\"A\", or \"A,B,D\" for several). Match by value, not by the solution saying a letter.\n   - integer questions: the exact number the question asks for, derived from the solution's result (if the question asks for n in nq/(2ε₀) and the solution ends at q/(2ε₀), the answer is \"1\").\n   - \"\" only if the solution never reaches a result.\n   Judge from the solution alone; you are not told the key.\n\n2. solution_problems: real problems in the stored solution only:\n   - \"wrong_step\": a step or final line that is mathematically wrong. Quote the wrong text exactly as shown and give the corrected text.\n   - \"belongs_to_other_question\": the solution (or part of it) works a different problem (different given values or a different quantity).\n   - \"self_contradictory\": it argues one thing and concludes the opposite.\n   - \"factual_error\": a stated fact that is wrong (biology/chemistry statements included). Quote it and give the correction.\n   Do not report style, brevity or missing explanation.\n\n3. text_defects: surface defects in the question or solution text. Each needs \"quote\" = the shortest exact text as shown below that contains the defect (copy it character for character, no paraphrase), and \"fix\" = that same text corrected, written exactly as a student should see it: plain words and numbers, unit prefixes where natural (95.5 mH, not 95.5×10^(−3) H), never \"^\", LaTeX or Markdown. Types:\n   - \"spelling\": misspelt word or two words run together. Words only; never change a number or symbol. Go through the question stem and EVERY option word by word first (students see these), including proper nouns and names of organisms, crops, scientists and chemicals; then the solution.\n   - \"exam_reference\": an exam tag such as \"(NEET 2019)\" inside the question text (fix = the quote with the tag removed).\n   - \"noise\": stray text such as question numbers or \"Space for rough work\".\n   - \"notation\": a symbol, exponent, bracket or unit visibly wrong in one expression (for example a unit placed inside a square root).\n   - \"answer_form\": an integer-type question that does not say what unit or form the answer is in (fix = quote plus a short addition such as \" (in N)\"; never add a number).\n   - \"stem_data\": a value or condition the question needs but does not state, which the stored solution uses without doubt (fix = quote plus that value, exactly as the solution uses it).\n   Report only defects you are sure of. An empty list is a good answer.\n\n4. chapter_fit: does the question belong to the stated subject and chapter? If not, give the subject and chapter it belongs to.\n\nBe conservative: a false defect costs a faculty member's time.",
+  "user": "Stated subject: Physics\nStated chapter: Geometrical optics and optical instruments\nSubject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nTwo identical thin converging lenses are kept in contact at a distance 12.5 cm from an object. If real image produced is 4 times enlarged then what is the optical power of each lens in dioptres.\n\nStored solution:\nIf f_eq is the focal length of combination, we use u=−12.5 cm For real image v=mu=+50 cm 1/v−1/u=1/(f_eq) ⇒1/50+1/12.5=1/(f_eq) ⇒1/(f_eq)=1/10 ⇒f_eq=10 cm Equivalent power of the lens system is P_eq=1/0.1=10D=2P_eqcu Optical power of each lens is P_eqch=5D",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "solution_final_answer": {
+     "type": "string"
+    },
+    "solution_final_value": {
+     "type": "string"
+    },
+    "solution_problems": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "wrong_step",
+         "belongs_to_other_question",
+         "self_contradictory",
+         "factual_error"
+        ]
+       },
+       "quote": {
+        "type": "string"
+       },
+       "correction": {
+        "type": "string"
+       },
+       "detail": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "quote",
+       "correction",
+       "detail"
+      ]
+     }
+    },
+    "text_defects": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "spelling",
+         "exam_reference",
+         "noise",
+         "notation",
+         "answer_form",
+         "stem_data"
+        ]
+       },
+       "field": {
+        "type": "string",
+        "enum": [
+         "question",
+         "solution"
+        ]
+       },
+       "quote": {
+        "type": "string"
+       },
+       "fix": {
+        "type": "string"
+       },
+       "detail": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "field",
+       "quote",
+       "fix",
+       "detail"
+      ]
+     }
+    },
+    "chapter_fit": {
+     "type": "object",
+     "properties": {
+      "fits": {
+       "type": "boolean"
+      },
+      "subject": {
+       "type": "string"
+      },
+      "chapter": {
+       "type": "string"
+      },
+      "detail": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "fits",
+      "subject",
+      "chapter",
+      "detail"
+     ]
+    }
+   },
+   "required": [
+    "solution_final_answer",
+    "solution_final_value",
+    "solution_problems",
+    "text_defects",
+    "chapter_fit"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"solution_final_answer\": \"5\",\n  \"solution_final_value\": \"5 D\",\n  \"solution_problems\": [],\n  \"text_defects\": [\n    {\n      \"type\": \"spelling\",\n      \"field\": \"solution\",\n      \"quote\": \"2P_eqcu Optical power of each lens is P_eqch=5D\",\n      \"fix\": \"2P_each. Optical power of each lens is P_each = 5 D\",\n      \"detail\": \"Typographical errors in subscript names ('P_eqcu' and 'P_eqch' instead of 'P_each').\"\n    }\n  ],\n  \"chapter_fit\": {\n    \"fits\": true,\n    \"subject\": \"Physics\",\n    \"chapter\": \"Geometrical optics and optical instruments\",\n    \"detail\": \"\"\n  }\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 979,
+  "output": 199,
+  "thoughts": 500,
+  "tool": 0,
+  "total": 1678
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nTwo blocks of masses 10 kg and 4 kg are connected by a spring of negligible mass and placed on a frictionless horizontal surface. An impulse gives a velocity of 14 m/s to the heavier block in the direction of the lighter block. The velocity of the centre of mass is\n\nOptions:\n(A) 30 m/s\n(B) 20 m/s\n(C) 10 m/s\n(D) [this option is missing]",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"C\",\n \"value\": \"10 m/s\",\n \"working\": \"Velocity of the center of mass V_cm = (m1 * v1 + m2 * v2) / (m1 + m2)\\nHere, m1 = 10 kg, v1 = 14 m/s, m2 = 4 kg, v2 = 0 m/s\\nV_cm = (10 * 14 + 4 * 0) / (10 + 4) = 140 / 14 = 10 m/s\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "m1 = 10.0\nm2 = 4.0\nv1 = 14.0\nv2 = 0.0\n\nv_cm = (m1 * v1 + m2 * v2) / (m1 + m2)\nprint(f\"v_cm = {v_cm}\")\n"
+ ],
+ "code_output": [
+  "v_cm = 10.0\n"
+ ],
+ "usage": {
+  "prompt": 644,
+  "output": 243,
+  "thoughts": 538,
+  "tool": 738,
+  "total": 2163
+ }
+}

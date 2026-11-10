@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Zoology\nType: scq (single correct option)\n\nQuestion:\nWhich of the following pairs of hormones are not antagonistic (having opposite effects) to each other?\n\nOptions:\n(A) Parathormone – Calcitonin\n(B) Insulin - Glucagon\n(C) Aldosterone Atrial Natriuretic Factor\n(D) Relaxin - Inhibin\n\nDefect type: notation\nQuoted text: Aldosterone Atrial Natriuretic Factor\nProposed replacement: Aldosterone - Atrial Natriuretic Factor",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\"is_defect\":true,\"fix_is_correct\":true,\"changes_only_the_defect\":true,\"reason\":\"Option (C) missing the hyphen separator between the two hormones, making it inconsistent with the other options.\"}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 317,
+  "output": 49,
+  "thoughts": 221,
+  "tool": 0,
+  "total": 587
+ }
+}

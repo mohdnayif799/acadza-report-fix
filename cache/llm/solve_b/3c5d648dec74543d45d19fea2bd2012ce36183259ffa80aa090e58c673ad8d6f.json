@@ -1,0 +1,21 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Botany\nType: scq (single correct option)\n\nQuestion:\nRate of photosynthesis is low in herbs, shrubs as compared to sun plants because\n\nOptions:\n(A) Herb, shrubs receive more red light\n(B) Herb, shrubs receive more blue light\n(C) Herb, shrubs receive more green light\n(D) Herb, shrubs receive more white light",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"C\",\n \"value\": \"Herb, shrubs receive more green light\",\n \"working\": \"Canopy trees absorb most of the red and blue light from sunlight.\\nThe light filtered through the canopy and reaching understory herbs/shrubs is enriched in green light.\\nGreen light is less efficiently absorbed by chlorophyll, leading to a lower photosynthetic rate.\",\n \"confidence\": 0.95,\n \"issues\": []\n}\n```",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 365,
+  "output": 99,
+  "thoughts": 621,
+  "tool": 0,
+  "total": 1085
+ }
+}

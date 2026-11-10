@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Physics\nType: mcq (one or more correct options)\n\nQuestion:\nA sample of nuclei X contains 48×10^23 nuclei at some time and reduced to 6×10^23 nuclei in 3 minutes. The mean life of nucleus X is roughly?\n\nOptions:\n(A) 0.693 min\n(B) 1.44 min\n(C) 2.079 min\n(D) 4.329 min\n\nDefect type: wrong_chapter\nQuoted text: filed under Physics / Mathematics in physics; belongs to Physics / Nuclei\nProposed replacement: n/a",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"is_defect\": true,\n  \"fix_is_correct\": true,\n  \"changes_only_the_defect\": true,\n  \"reason\": \"The question pertains to radioactive decay, which belongs under Physics / Nuclei rather than Mathematics in physics.\"\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 348,
+  "output": 62,
+  "thoughts": 123,
+  "tool": 0,
+  "total": 533
+ }
+}

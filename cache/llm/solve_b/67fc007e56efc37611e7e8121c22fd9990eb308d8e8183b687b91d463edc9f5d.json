@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nIf the kinetic energy of a body becomes four times of its initial value, then new momentum will\n\nOptions:\n(A) Become twice its initial value\n(B) Become three times, its initial value\n(C) Become four times, its initial value\n(D) Remains constant",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"A\",\n \"value\": \"2 times initial momentum\",\n \"working\": \"Relationship between kinetic energy and momentum: K = p^2 / (2m), so p = sqrt(2mK).\\nIf K2 = 4*K1, then p2 = sqrt(2m * 4*K1) = 2*p1.\\nThus, new momentum becomes twice its initial value.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "def solve():\n    # K = p^2 / 2m => p = sqrt(2mK)\n    # K2 = 4 * K1 => p2 = sqrt(2m * 4 K1) = 2 * sqrt(2mK1) = 2 * p1\n    factor_K = 4.0\n    factor_p = factor_K**0.5\n    print(f\"Momentum factor: {factor_p}\")\n\nsolve()\n"
+ ],
+ "code_output": [
+  "Momentum factor: 2.0\n"
+ ],
+ "usage": {
+  "prompt": 523,
+  "output": 235,
+  "thoughts": 235,
+  "tool": 650,
+  "total": 1643
+ }
+}

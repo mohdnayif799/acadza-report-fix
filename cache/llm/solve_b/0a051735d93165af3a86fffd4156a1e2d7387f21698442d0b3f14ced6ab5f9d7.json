@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nLight of wavelength 4000 Å falls on a metal surface having work function of 2.0 eV. What is the stopping potential?\n\nOptions:\n(A) 3.1 V\n(B) 2.0 V\n(C) 5.1 V\n(D) 1.1 V",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"D\",\n \"value\": \"1.1 V\",\n \"working\": \"Photon energy E = hc / λ = 12400 / 4000 = 3.1 eV.\\nEinstein's photoelectric equation: K_max = E - Φ = 3.1 eV - 2.0 eV = 1.1 eV.\\nStopping potential V_s = K_max / e = 1.1 V.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "# Physical constants\nh = 6.62607015e-34  # J s\nc = 299792458       # m/s\ne = 1.602176634e-19 # C\n\nwavelength = 4000e-10 # m\nwork_function_eV = 2.0 # eV\n\n# Energy of photon in Joules\nE_J = (h * c) / wavelength\n# Energy of photon in eV\nE_eV = E_J / e\n\n# Stopping potential in Volts\nV_s = E_eV - work_function_eV\nprint(f\"Photon energy: {E_eV:.4f} eV\")\nprint(f\"Stopping potential: {V_s:.4f} V\")\n"
+ ],
+ "code_output": [
+  "Photon energy: 3.0996 eV\nStopping potential: 1.0996 V\n"
+ ],
+ "usage": {
+  "prompt": 589,
+  "output": 322,
+  "thoughts": 405,
+  "tool": 809,
+  "total": 2125
+ }
+}

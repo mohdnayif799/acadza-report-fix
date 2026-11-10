@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Botany\nType: scq (single correct option)\n\nQuestion:\nThe absolute refractory period during an action potential generation is primarily caused by:\n\nOptions:\n(A) Closure of voltage-gated K^+ channels.\n(B) Inactivation of voltage-gated Na^+ channels.\n(C) Increased permeability to Cl^− ions.\n(D) Continuous activation of the Na^+/K^+ pump.\n\nStored solution:\nThe absolute refractory period is the short interval immediately following the generation of an action potential during which the neuron is completely incapable of generating another action potential, regardless of the strength of the stimulus. This period is primarily due to the inactivation of the voltage-gated Na+channels. Although the membrane is depolarized (which would normally open them), these specific channels enter a temporary, locked inactivated state that prevents them from opening again, thereby halting the influx of Na+ ions required for a new depolarization.\n\nDefect type: spelling\nQuoted text: Na+channels\nProposed replacement: Na+ channels",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\"is_defect\": true, \"fix_is_correct\": true, \"changes_only_the_defect\": true, \"reason\": \"A space was missing between 'Na+' and 'channels' in the solution text.\"}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 419,
+  "output": 49,
+  "thoughts": 172,
+  "tool": 0,
+  "total": 640
+ }
+}

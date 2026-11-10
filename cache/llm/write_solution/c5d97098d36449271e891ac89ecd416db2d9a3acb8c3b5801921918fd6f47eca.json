@@ -1,0 +1,21 @@
+{
+ "request": {
+  "model": "gemini-3.8-flash",
+  "system": "You write a short, correct worked solution for a JEE/NEET question whose stored solution is unusable.\n\nYou are given the question, its options, and the answer key. The key has already been confirmed independently by two separate solvers, so your solution must end in that keyed answer.\n\nRules:\n- 3 to 6 short steps. Show the formula, substitute the given values, compute, and state the final answer as \"Hence, the answer is (X) <value>.\" on the last line.\n- Use only values given in the question and standard constants (state them, e.g. h = 6.63 × 10⁻³⁴ J s).\n- Plain text with Unicode symbols (×, ⁻, ², λ, √). No LaTeX. No Markdown.\n- Separate steps with <br/>. Wrap the whole solution in a single <h3>...</h3>. No other HTML tags or attributes.\n- If the keyed answer does not follow from the question, reply with exactly: CANNOT_CONFIRM",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nThe kinetic energy of an electron with de-Broglie wavelength of 0.3 nanometer is\n\nOptions:\n(A) 0.168 eV\n(B) 16.8 eV\n(C) 1.68 eV\n(D) 2.5 eV\n\nAnswer key (confirmed by two independent solvers): (B) 16.8 eV",
+  "schema": null,
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "<h3>The de-Broglie wavelength is given by λ = h / √(2mK), where K is the kinetic energy, m is the mass of the electron, and h is Planck's constant.<br/>Rearranging for kinetic energy gives K = h² / (2mλ²).<br/>Using standard constants, m = 9.1 × 10⁻³¹ kg, h = 6.63 × 10⁻³⁴ J s, and given λ = 0.3 nm = 3 × 10⁻¹⁰ m:<br/>K = (6.63 × 10⁻³⁴)² / [2 × (9.1 × 10⁻³¹) × (3 × 10⁻¹⁰)²] = 2.68 × 10⁻¹⁸ J.<br/>Converting to electron-volts: K = (2.68 × 10⁻¹⁸ J) / (1.6 × 10⁻¹⁹ J/eV) ≈ 16.8 eV.<br/>Hence, the answer is (B) 16.8 eV.</h3>",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 319,
+  "output": 246,
+  "thoughts": 559,
+  "tool": 0,
+  "total": 1124
+ }
+}

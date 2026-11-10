@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nIn YDSE distance between the slits plane and screen is 1 m and distance between two slits is 5 mm . If slabs of thickness 2 mm and 1.5 mm having refractive index 1.5 and 1.4 are placed in front of two slits, find the shift (in cm ) of central maxima",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": \"8\",\n \"value\": \"8 cm\",\n \"working\": \"Optical path diff = (μ1 - 1)t1 - (μ2 - 1)t2 = (0.5)(2 mm) - (0.4)(1.5 mm) = 0.4 mm\\nShift y = (D / d) * Δx\\ny = (1 m / 5 mm) * 0.4 mm = 200 * 0.4 mm = 80 mm = 8 cm\",\n \"confidence\": 1.0,\n \"issues\": []}\n```",
+ "code": [
+  "D = 1.0 # meter = 100 cm\nd = 5e-3 # meter = 0.5 cm = 5 mm\nt1 = 2e-3 # meter\nmu1 = 1.5\nt2 = 1.5e-3 # meter\nmu2 = 1.4\n\npath_diff = (mu1 - 1) * t1 - (mu2 - 1) * t2\nshift_m = (D / d) * path_diff\nshift_cm = shift_m * 100\n\nprint(f\"Path difference: {path_diff} m\")\nprint(f\"Shift in meters: {shift_m} m\")\nprint(f\"Shift in cm: {shift_cm} cm\")\n"
+ ],
+ "code_output": [
+  "Path difference: 0.0004000000000000002 m\nShift in meters: 0.08000000000000004 m\nShift in cm: 8.000000000000004 cm\n"
+ ],
+ "usage": {
+  "prompt": 611,
+  "output": 327,
+  "thoughts": 808,
+  "tool": 873,
+  "total": 2619
+ }
+}

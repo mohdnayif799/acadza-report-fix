@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nA particle performing SHM starts equilibrium position and its time period is 16 seconds. After 2 seconds its velocity is πm/s . Amplitude of oscillation is (cos45^∘=1/(√(2)))\n\nOptions:\n(A) 2√(2 m)\n(B) 4√(2 m)\n(C) 6√(2 m)\n(D) 8√(2 m)",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"D\",\n \"value\": \"8\\\\sqrt{2} m\",\n \"working\": \"v(t) = A * omega * cos(omega * t) with omega = 2*pi / 16 = pi/8 rad/s.\\nAt t = 2 s, omega * t = pi/4 rad.\\nv(2) = A * (pi/8) * cos(pi/4) = pi.\\nA = 8 * sqrt(2) m.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "import math\n\nT = 16\nomega = 2 * math.pi / T\nt = 2\nv_t = math.pi\n\n# v(t) = A * omega * cos(omega * t)\n# omega * t = (2*pi/16) * 2 = pi/4\ncos_val = math.cos(math.pi / 4)\n\nA = v_t / (omega * cos_val)\nprint(f\"A = {A}\")\nprint(f\"A / sqrt(2) = {A / math.sqrt(2)}\")\n"
+ ],
+ "code_output": [
+  "A = 11.313708498984761\nA / sqrt(2) = 8.0\n"
+ ],
+ "usage": {
+  "prompt": 733,
+  "output": 276,
+  "thoughts": 509,
+  "tool": 909,
+  "total": 2427
+ }
+}

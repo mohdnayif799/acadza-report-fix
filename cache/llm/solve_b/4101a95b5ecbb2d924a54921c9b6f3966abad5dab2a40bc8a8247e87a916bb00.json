@@ -1,0 +1,21 @@
+{
+ "request": {
+  "model": "gemini-3.8-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: mcq (one or more correct options)\n\nQuestion:\nSelect the correct statement(s) from the following. The path of a charged particle moving with an initial velocity u\n\nOptions:\n(A) parallel to the uniform electrostatic field is a straight line.\n(B) perpendicular to the uniform electrostatic field is a parabola.\n(C) parallel to the uniform magnetic field is a helix with its axis parallel to the direction of\nB .\n(D) perpendicular to the uniform magnetic field is a circle in a plane normal to the field.",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": [\"A\", \"B\", \"D\"],\n \"value\": \"A, B, D\",\n \"working\": \"For (A), F = qE is parallel to velocity, resulting in straight-line motion.\\nFor (B), motion is equivalent to projectile motion, yielding a parabolic path.\\nFor (C), F = q(v x B) = 0 when parallel, so path is a straight line, not a helix.\\nFor (D), F is perpendicular to both v and B, resulting in uniform circular motion in a plane normal to B.\",\n \"confidence\": 1.0,\n \"issues\": []}\n```",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 405,
+  "output": 141,
+  "thoughts": 438,
+  "tool": 0,
+  "total": 984
+ }
+}

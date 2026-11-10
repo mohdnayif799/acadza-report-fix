@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nA block of weight 100 N when pushed by a force F on a horizontal rough surface moves with an acceleration 1 m/s^2 , when force is doubled its acceleration becomes 10 m/s^2 . The coefficient of friction between block and surface is (g=10 m/s^2)\n\nOptions:\n(A) 0.8\n(B) 0.4\n(C) 0.6\n(D) 0.2",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"A\",\n \"value\": \"0.8\",\n \"working\": \"Given W = 100 N, m = 10 kg, and f = 100\\u03bc.\\nEquation 1: F - 100\\u03bc = 10 \\u00d7 1 = 10\\nEquation 2: 2F - 100\\u03bc = 10 \\u00d7 10 = 100\\nSubtracting Eq 1 from Eq 2 gives F = 90 N, leading to \\u03bc = 0.8.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "# Equations:\n# F - 100*mu = 10\n# 2*F - 100*mu = 100\n\nimport sympy as sp\n\nF, mu = sp.symbols('F mu')\neq1 = sp.Eq(F - 100*mu, 10)\neq2 = sp.Eq(2*F - 100*mu, 100)\n\nsol = sp.solve((eq1, eq2), (F, mu))\nprint(sol)\n"
+ ],
+ "code_output": [
+  "{F: 90, mu: 4/5}\n"
+ ],
+ "usage": {
+  "prompt": 647,
+  "output": 307,
+  "thoughts": 430,
+  "tool": 793,
+  "total": 2177
+ }
+}

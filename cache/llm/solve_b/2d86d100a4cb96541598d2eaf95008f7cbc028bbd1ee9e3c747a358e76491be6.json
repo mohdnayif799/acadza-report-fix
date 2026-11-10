@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nA total charge Q is uniformly distributed throughout the volume of a sphere. Electric potential at a point on the surface of the sphere is greater than the potential at infinity by 16 V . Find the potential difference (in volt) between point 𝐏 at a distance half of the radius of the sphere from the centre and the point 𝐒 at a distance double the radius of the sphere from the centre of the sphere.",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": \"14\",\n \"value\": \"14 V\",\n \"working\": \"V(surface) = kQ/R = 16 V.\\nV(P) at r = R/2 is (kQ / 2R^3) * (3R^2 - (R/2)^2) = (11/8) * (kQ/R) = 22 V.\\nV(S) at r = 2R is kQ/(2R) = 8 V.\\nPotential difference V_P - V_S = 22 V - 8 V = 14 V.\",\n \"confidence\": 1.0,\n \"issues\": []}\n```",
+ "code": [
+  "V_surface = 16.0\nk = V_surface # k = Q / (4 * pi * eps0 * R)\n\n# V(r) inside sphere = (k / (2 * R^2)) * (3*R^2 - r^2)\n# For r = R/2:\nV_P = (k / 2.0) * (3.0 - (0.5)**2)\n\n# V(r) outside sphere = k * R / r\n# For r = 2R:\nV_S = k / 2.0\n\ndiff = V_P - V_S\nprint(f\"V_P = {V_P}\")\nprint(f\"V_S = {V_S}\")\nprint(f\"Difference = {diff}\")\n"
+ ],
+ "code_output": [
+  "V_P = 22.0\nV_S = 8.0\nDifference = 14.0\n"
+ ],
+ "usage": {
+  "prompt": 980,
+  "output": 350,
+  "thoughts": 988,
+  "tool": 1196,
+  "total": 3514
+ }
+}

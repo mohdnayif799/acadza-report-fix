@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Zoology\nType: scq (single correct option)\n\nQuestion:\nA biologist is trying to infer how five closely related species of snakes are related to one another. She noticed that some of the snakes have forked tongues and others do not. Which of the following would help her to distinguish their ancestral state?\n\nOptions:\n(A) She looks among snake fossils for evidences that being forked is a characteristic of the ancestor of this group, but determines no such fossils exists\n(B) She locates a specimen of a more distantly related snake to see if it has a forked tongue\n(C) She looks at a representative mammal species to see if it has a forked tongue\n(D) She flips a coin\n\nStored solution:\nForked tongue snakes may represents the origin of new variety of snake from the non-forked tongue snakes. If biologist is trying to find that how closely these two species are related to each other than, he/she has to locate a specimen of more distantly related snake to see it, wheater, it has a forked tongue or not\n\nDefect type: spelling\nQuoted text: wheater\nProposed replacement: whether",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"is_defect\": true,\n  \"fix_is_correct\": true,\n  \"changes_only_the_defect\": true,\n  \"reason\": \"\\\"wheater\\\" is a spelling error in the stored solution, and replacing it with \\\"whether\\\" corrects the typo.\"\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 448,
+  "output": 65,
+  "thoughts": 204,
+  "tool": 0,
+  "total": 717
+ }
+}

@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nThe volume contraction of a solid copper cube, when subjected to a hydraulic pressure of 7×10^6 Pa , would be ____ mm^3 .\n(Given bulk modulus of copper =1.4×10^11Nm^(−2) )\n\nStored solution:\nB=ΔP/(ΔV/V)\nΔV=(7×10^6)/(1.4×10^11)×((10×10^(−2)))^3\nΔV=50mm^3\n\nDefect type: stem_data\nQuoted text: The volume contraction of a solid copper cube, when subjected\nProposed replacement: The volume contraction of a solid copper cube, of edge length 10 cm, when subjected",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\"is_defect\": true, \"fix_is_correct\": true, \"changes_only_the_defect\": true, \"reason\": \"The edge length of the cube is missing in the question stem, making it impossible to calculate the volume contraction without it.\"}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 380,
+  "output": 56,
+  "thoughts": 369,
+  "tool": 0,
+  "total": 805
+ }
+}

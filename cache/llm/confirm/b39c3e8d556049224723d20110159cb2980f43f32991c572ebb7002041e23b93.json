@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nA glass tube of uniform internal radius (r) has a valve separating the two identical ends. Initially, the valve is in a tightly closed position. End 1 has a hemispherial soap bubble of radius r . End 2 has sub-hemispherical soap bubble as shown in figure.\nJust after opening the valve.\n\nOptions:\n(A) air from end 1 flows towards end 2 . No change in the volume of the soap bubbles\n(B) air from end 1 flows towards end 2. Volume of the soap bubble at end 1 decreases\n(C) no change occurs\n(D) air from end 2 flows towards end 1 . Volume of the soap bubble at end 1 increases\n\nDefect type: spelling\nQuoted text: hemispherial\nProposed replacement: hemispherical",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\"is_defect\":true,\"fix_is_correct\":true,\"changes_only_the_defect\":true,\"reason\":\"\\\"hemispherial\\\" is a misspelling of \\\"hemispherical\\\".\"}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 390,
+  "output": 44,
+  "thoughts": 179,
+  "tool": 0,
+  "total": 613
+ }
+}

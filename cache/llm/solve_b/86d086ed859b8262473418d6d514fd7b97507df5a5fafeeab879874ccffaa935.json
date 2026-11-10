@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Zoology\nType: scq (single correct option)\n\nQuestion:\nWhich of the following pairs of hormones are not antagonistic (having opposite effects) to each other?\n\nOptions:\n(A) Parathormone – Calcitonin\n(B) Insulin - Glucagon\n(C) Aldosterone Atrial Natriuretic Factor\n(D) Relaxin - Inhibin",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"D\",\n \"value\": \"Relaxin and Inhibin\",\n \"working\": \"PTH increases Ca2+ while calcitonin decreases it (antagonistic).\\nInsulin decreases glucose while glucagon increases it (antagonistic).\\nAldosterone increases Na+/water retention while ANF promotes Na+ excretion (antagonistic).\\nRelaxin and Inhibin have completely distinct, non-antagonistic functions.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "pairs = {\n    \"(A) Parathormone - Calcitonin\": \"Antagonistic: PTH increases blood Ca2+, Calcitonin decreases blood Ca2+.\",\n    \"(B) Insulin - Glucagon\": \"Antagonistic: Insulin lowers blood glucose, Glucagon raises blood glucose.\",\n    \"(C) Aldosterone - Atrial Natriuretic Factor\": \"Antagonistic: Aldosterone reabsorbs Na+ and increases BP, ANF excretes Na+ and lowers BP.\",\n    \"(D) Relaxin - Inhibin\": \"Not antagonistic: Relaxin relaxes uterine/pelvic ligaments; Inhibin suppresses FSH.\"\n}\n\nfor option, detail in pairs.items():\n    print(f\"{option}: {detail}\")\n"
+ ],
+ "code_output": [
+  "(A) Parathormone - Calcitonin: Antagonistic: PTH increases blood Ca2+, Calcitonin decreases blood Ca2+.\n(B) Insulin - Glucagon: Antagonistic: Insulin lowers blood glucose, Glucagon raises blood glucose.\n(C) Aldosterone - Atrial Natriuretic Factor: Antagonistic: Aldosterone reabsorbs Na+ and increases BP, ANF excretes Na+ and lowers BP.\n(D) Relaxin - Inhibin: Not antagonistic: Relaxin relaxes uterine/pelvic ligaments; Inhibin suppresses FSH.\n"
+ ],
+ "usage": {
+  "prompt": 703,
+  "output": 285,
+  "thoughts": 351,
+  "tool": 995,
+  "total": 2334
+ }
+}

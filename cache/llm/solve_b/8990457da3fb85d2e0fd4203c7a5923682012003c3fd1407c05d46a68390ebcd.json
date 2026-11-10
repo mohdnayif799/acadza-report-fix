@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nA body of mass 2 kg is kept by pressing to a vertical wall by a force of 100 N. The friction between wall and body is 0.3. Then the frictional force is equal to",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": \"20\",\n \"value\": \"20 N\",\n \"working\": \"Normal force by wall N = 100 N.\\nMaximum static friction f_max = mu * N = 0.3 * 100 = 30 N.\\nWeight of body W = m * g = 2 * 10 = 20 N (taking g = 10 m/s^2).\\nSince W < f_max, frictional force f = W = 20 N.\",\n \"confidence\": 1.0,\n \"issues\": []}\n```",
+ "code": [
+  "m = 2.0\nF = 100.0\nmu = 0.3\n\ng_98 = 9.8\ng_10 = 10.0\n\nf_max = mu * F\nW_98 = m * g_98\nW_10 = m * g_10\n\nf_actual_98 = min(W_98, f_max)\nf_actual_10 = min(W_10, f_max)\n\nprint(f\"f_max = {f_max} N\")\nprint(f\"f (g=9.8) = {f_actual_98} N\")\nprint(f\"f (g=10) = {f_actual_10} N\")\n"
+ ],
+ "code_output": [
+  "f_max = 30.0 N\nf (g=9.8) = 19.6 N\nf (g=10) = 20.0 N\n"
+ ],
+ "usage": {
+  "prompt": 666,
+  "output": 323,
+  "thoughts": 648,
+  "tool": 895,
+  "total": 2532
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a senior JEE/NEET teacher solving one exam question from scratch.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment. Work only from the question below. Do not guess what the key \"probably\" is.\n\nRules:\n- Solve it yourself, step by step, then pick the answer.\n- \"scq\" = exactly one correct option: give one letter.\n- \"mcq\" = one or more correct options: give every correct letter.\n- \"integerQuestion\" = give the number the question asks for, in the unit and form it asks for (respect \"in cm\", \"10A\", significant figures, etc.).\n- Also give \"value\": your computed final quantity in words/numbers with its unit (for example \"4800 N/m^2\", \"1:1\", \"tan^-1(4)\").\n- If your result matches no option, set \"answer\" to null and report issue \"no_matching_option\".\n- If more than one option is correct in an scq, report \"multiple_correct\".\n- If a value or condition needed to solve it is missing from the question, report \"missing_data\" and say exactly what is missing. Only use a standard assumption (g = 10 m/s^2, etc.) if exam convention allows it.\n- If the question needs a figure that is not described, report \"figure_needed\".\n- If an option is blank or absent, report \"blank_option\" and still solve for the value.\n- \"working\": at most 6 short lines a teacher could check.\n- \"confidence\": your honest probability (0 to 1) that \"answer\" is correct.\n\nReply with JSON only, matching the schema.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nEach side of a cube is measured to be 7.203 m . If the total surface area of the cube considering the correct significant digits in m^2 is A , then find the value of 10 A .",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "answer": {
+     "type": [
+      "string",
+      "array",
+      "null"
+     ],
+     "items": {
+      "type": "string"
+     }
+    },
+    "value": {
+     "type": "string"
+    },
+    "working": {
+     "type": "string"
+    },
+    "confidence": {
+     "type": "number"
+    },
+    "issues": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "no_matching_option",
+         "multiple_correct",
+         "missing_data",
+         "figure_needed",
+         "blank_option"
+        ]
+       },
+       "detail": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "type",
+       "detail"
+      ]
+     }
+    }
+   },
+   "required": [
+    "answer",
+    "value",
+    "working",
+    "confidence",
+    "issues"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"answer\": \"3113\",\n  \"value\": \"3113\",\n  \"working\": \"Side of cube l = 7.203 m (4 significant figures).\\nTotal surface area A = 6 * l^2 = 6 * (7.203)^2 = 311.299254 m^2.\\nSince 6 is an exact number, A must be rounded to 4 significant figures.\\nA = 311.3 m^2.\\n10 A = 10 * 311.3 = 3113.\",\n  \"confidence\": 1,\n  \"issues\": []\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 442,
+  "output": 155,
+  "thoughts": 842,
+  "tool": 0,
+  "total": 1439
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nEach side of a cube is measured to be 7.203 m . If the total surface area of the cube considering the correct significant digits in m^2 is A , then find the value of 10 A .",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": \"3113\",\n \"value\": \"3113\",\n \"working\": \"Side a = 7.203 m has 4 significant figures.\\nTotal surface area A = 6 * a^2 = 311.299254 m^2.\\nRounding to 4 significant figures gives A = 311.3 m^2.\\nThus, 10 A = 3113.\",\n \"confidence\": 1.0,\n \"issues\": []}\n```",
+ "code": [
+  "a = 7.203\n# 6 is exact, a has 4 sig figs\narea = 6 * a**2\nprint(f\"Exact area: {area}\")\n# 4 significant figures:\n# 311.299254 -> 311.3\narea_sig = round(area, 1) # since 311.299... -> 311.3\nprint(f\"Area with sig figs: {area_sig}\")\nans = 10 * area_sig\nprint(f\"10 * A = {ans}\")\n",
+  "a = 7.203\nexact_A = 6 * (a ** 2)\nsig_A = float(f\"{exact_A:.4g}\") # 4 sig figs\nval = 10 * sig_A\nprint(f\"sig_A: {sig_A}, val: {val}\")\n"
+ ],
+ "code_output": [
+  "Exact area: 311.299254\nArea with sig figs: 311.3\n10 * A = 3113.0\n",
+  "sig_A: 311.3, val: 3113.0\n"
+ ],
+ "usage": {
+  "prompt": 1029,
+  "output": 358,
+  "thoughts": 808,
+  "tool": 2204,
+  "total": 4399
+ }
+}

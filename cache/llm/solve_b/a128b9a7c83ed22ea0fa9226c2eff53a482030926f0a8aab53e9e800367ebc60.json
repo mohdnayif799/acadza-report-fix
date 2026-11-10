@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nTwo point charges repel each other with a force of 100 N. One of the charges is increased by 10% and the other is reduced by 10%. The new force of repulsion at the same distance would be\n\nOptions:\n(A) 100 N\n(B) 121 N\n(C) 99 N\n(D) None of these",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"C\",\n \"value\": \"99 N\",\n \"working\": \"Initial force F1 = k*q1*q2 / r^2 = 100 N.\\nNew charges are q1' = 1.1*q1 and q2' = 0.9*q2.\\nNew force F2 = 1.1 * 0.9 * F1 = 0.99 * 100 N = 99 N.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "F1 = 100\nq1_factor = 1.10\nq2_factor = 0.90\nF2 = F1 * q1_factor * q2_factor\nprint(f\"F2 = {F2}\")\n"
+ ],
+ "code_output": [
+  "F2 = 99.00000000000001\n"
+ ],
+ "usage": {
+  "prompt": 491,
+  "output": 201,
+  "thoughts": 417,
+  "tool": 581,
+  "total": 1690
+ }
+}

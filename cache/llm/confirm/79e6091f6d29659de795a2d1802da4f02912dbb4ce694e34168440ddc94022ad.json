@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Physics\nType: integerQuestion (numerical answer)\n\nQuestion:\nA body of mass 2 kg is kept by pressing to a vertical wall by a force of 100 N. The friction between wall and body is 0.3. Then the frictional force is equal to\n\nDefect type: answer_form\nQuoted text: frictional force is equal to\nProposed replacement: frictional force is equal to (in N)",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"is_defect\": true,\n  \"fix_is_correct\": true,\n  \"changes_only_the_defect\": true,\n  \"reason\": \"Specifying the unit '(in N)' is necessary for numerical answer type questions so students know the required unit of measurement.\"\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 295,
+  "output": 66,
+  "thoughts": 309,
+  "tool": 0,
+  "total": 670
+ }
+}

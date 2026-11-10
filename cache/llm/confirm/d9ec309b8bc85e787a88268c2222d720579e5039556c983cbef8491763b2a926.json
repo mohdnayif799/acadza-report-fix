@@ -1,0 +1,43 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are a second, independent reviewer of JEE/NEET question content. Another reviewer proposed a defect and a fix. Check it yourself; do not assume they are right.\n\nYou are given the question (and its stored solution when relevant), the defect type, the exact text that is said to be wrong, and the proposed replacement.\n\nAnswer three questions as JSON:\n- is_defect: is the quoted text really a defect of this type, as a student would see it?\n- fix_is_correct: is the proposed replacement correct (right spelling, right value, right unit, right physics/biology)? For \"n/a\" fixes, answer true.\n- changes_only_the_defect: does the replacement change nothing except the defect (no rewording, no other values)? For \"n/a\" fixes, answer true.\n- reason: one short sentence.\n\nBe strict. A false \"yes\" lets a wrong edit reach thousands of students.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nThe kinetic energy of an electron with de-Broglie wavelength of 0.3 nanometer is\n\nOptions:\n(A) 0.168 eV\n(B) 16.8 eV\n(C) 1.68 eV\n(D) 2.5 eV\n\nStored solution:\n=5.469×10^(−10)m=5.47\\AA λ=h/(|p|)=h/(|I|) =2.65×10^(−18)J =16.8eV\n\nDefect type: solution_rewrite\nQuoted text: (whole stored solution)\nProposed replacement: The de-Broglie wavelength is given by λ = h / √(2mK), where K is the kinetic energy, m is the mass of the electron, and h is Planck's constant.\nRearranging for kinetic energy gives K = h² / (2mλ²).\nUsing standard constants, m = 9.1 × 10⁻³¹ kg, h = 6.63 × 10⁻³⁴ J s, and given λ = 0.3 nm = 3 × 10⁻¹⁰ m:\nK = (6.63 × 10⁻³⁴)² / [2 × (9.1 × 10⁻³¹) × (3 × 10⁻¹⁰)²] = 2.68 × 10⁻¹⁸ J.\nConverting to electron-volts: K = (2.68 × 10⁻¹⁸ J) / (1.6 × 10⁻¹⁹ J/eV) ≈ 16.8 eV.\nHence, the answer is (B) 16.8 eV.",
+  "schema": {
+   "type": "object",
+   "properties": {
+    "is_defect": {
+     "type": "boolean"
+    },
+    "fix_is_correct": {
+     "type": "boolean"
+    },
+    "changes_only_the_defect": {
+     "type": "boolean"
+    },
+    "reason": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "is_defect",
+    "fix_is_correct",
+    "changes_only_the_defect",
+    "reason"
+   ]
+  },
+  "code_execution": false,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "{\n  \"is_defect\": true,\n  \"fix_is_correct\": true,\n  \"changes_only_the_defect\": true,\n  \"reason\": \"The original solution is corrupt and poorly formatted, and the proposed replacement provides a clear, mathematically accurate step-by-step calculation.\"\n}",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 605,
+  "output": 68,
+  "thoughts": 363,
+  "tool": 0,
+  "total": 1036
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nThe kinetic energy of an electron with de-Broglie wavelength of 0.3 nanometer is\n\nOptions:\n(A) 0.168 eV\n(B) 16.8 eV\n(C) 1.68 eV\n(D) 2.5 eV",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"B\",\n \"value\": \"16.8 eV\",\n \"working\": \"E = h^2 / (2 * m * lambda^2)\\nUsing h = 6.63 x 10^-34 J s, m = 9.1 x 10^-31 kg, lambda = 0.3 nm\\nE = 2.68 x 10^-18 J = 16.8 eV\\nMatches option (B).\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "h = 6.62607015e-34 # J s\nm = 9.10938356e-31 # kg\ne = 1.602176634e-19 # C\nlam = 0.3e-9 # m\n\n# Kinetic energy in Joules\nKE_J = (h**2) / (2 * m * lam**2)\n\n# Kinetic energy in eV\nKE_eV = KE_J / e\n\nprint(f\"KE_J: {KE_J}\")\nprint(f\"KE_eV: {KE_eV}\")\n",
+  "h = 6.63e-34\nm = 9.1e-31\ne = 1.6e-19\nlam = 0.3e-9\n\nKE_J = (h**2) / (2 * m * lam**2)\nKE_eV = KE_J / e\nprint(f\"Approx KE_eV: {KE_eV}\")\n\n# Also check shortcut: lambda in Angstrom = sqrt(150 / V) -> V = 150 / lambda^2\n# lambda = 3 Angstrom -> V = 150 / 9 = 16.67 V -> 16.7 eV\n# Some textbooks use V = 150 / lambda^2 -> 150 / (3^2) = 150 / 9 = 16.666... eV or 12.27/sqrt(V) -> V = (12.27 / 3)^2 = 4.09^2 = 16.7289 eV\n"
+ ],
+ "code_output": [
+  "KE_J: 2.677629998142817e-18\nKE_eV: 16.712451931456748\n",
+  "Approx KE_eV: 16.772321428571427\n"
+ ],
+ "usage": {
+  "prompt": 591,
+  "output": 544,
+  "thoughts": 480,
+  "tool": 1781,
+  "total": 3396
+ }
+}

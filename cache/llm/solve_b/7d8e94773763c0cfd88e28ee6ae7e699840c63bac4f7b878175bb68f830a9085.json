@@ -1,0 +1,25 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nIn a LCR circuit the pd between the terminals of the inductance is 60 V, between the terminals of the capacitor is 30V and that between the terminals of resistance is 40V. the supply voltage will be equal to ……\n\nOptions:\n(A) 50 V\n(B) 70 V\n(C) 130 V\n(D) 10 V",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n \"answer\": \"A\",\n \"value\": \"50 V\",\n \"working\": \"The supply voltage V in a series LCR circuit is V = sqrt(V_R^2 + (V_L - V_C)^2).\\nSubstituting V_R = 40 V, V_L = 60 V, and V_C = 30 V:\\nV = sqrt(40^2 + (60 - 30)^2) = sqrt(1600 + 900) = sqrt(2500) = 50 V.\",\n \"confidence\": 1.0,\n \"issues\": []\n}\n```",
+ "code": [
+  "import math\n\nVL = 60\nVC = 30\nVR = 40\n\nV = math.sqrt(VR**2 + (VL - VC)**2)\nprint(\"Supply voltage V =\", V)\n"
+ ],
+ "code_output": [
+  "Supply voltage V = 50.0\n"
+ ],
+ "usage": {
+  "prompt": 523,
+  "output": 212,
+  "thoughts": 248,
+  "tool": 591,
+  "total": 1574
+ }
+}

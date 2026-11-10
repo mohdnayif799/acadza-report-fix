@@ -1,0 +1,21 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Zoology\nType: scq (single correct option)\n\nQuestion:\nAggregates of lymphoid tissue present in the distal portion of the small intestine are known as\n\nOptions:\n(A) Villi\n(B) Peyer’s patches\n(C) Rugae\n(D) Choroid plexux",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\n  \"answer\": \"B\",\n  \"value\": \"Peyer’s patches\",\n  \"working\": \"Aggregates of lymphoid tissue in the distal small intestine (ileum) are known as Peyer's patches.\\nVilli are absorptive structures of the intestine mucosa.\\nRugae are mucosal folds present in the stomach.\\nChoroid plexus produces cerebrospinal fluid in the brain ventricles.\",\n  \"confidence\": 1.0,\n  \"issues\": []\n}\n```",
+ "code": [],
+ "code_output": [],
+ "usage": {
+  "prompt": 353,
+  "output": 110,
+  "thoughts": 407,
+  "tool": 0,
+  "total": 870
+ }
+}

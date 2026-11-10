@@ -1,0 +1,27 @@
+{
+ "request": {
+  "model": "gemini-3.5-flash",
+  "system": "You are checking one JEE/NEET exam question independently, using Python.\n\nYou are deliberately NOT shown the answer key, the stored solution, or any student comment.\n\nMethod:\n- If the question involves any calculation, write and run Python code to compute the result numerically. Compute the quantity itself, then compare it with each option numerically (do not pattern-match option text).\n- If it is purely conceptual (no numbers), reason it out briefly instead; code is not needed.\n- \"scq\" = exactly one correct option. \"mcq\" = one or more correct options. \"integerQuestion\" = the number asked for, in the unit and form asked.\n\nAfter computing, end your reply with one JSON object in a ```json fence, with these keys:\n{\"answer\": <letter, list of letters, number as a string, or null>,\n \"value\": <your computed final quantity with unit, as text>,\n \"working\": <at most 4 short lines>,\n \"confidence\": <0 to 1>,\n \"issues\": [{\"type\": \"no_matching_option\" | \"multiple_correct\" | \"missing_data\" | \"figure_needed\" | \"blank_option\", \"detail\": \"...\"}]}\n\nUse \"answer\": null with issue \"no_matching_option\" if no option matches your computed value.",
+  "user": "Subject: Physics\nType: scq (single correct option)\n\nQuestion:\nIn an AC circuit, the current is i=5sin(100t−π/2)A and voltage is e=200sin(100t) volt. Power consumption in the circuit is ( cos90^(∘)=0 )\n\nOptions:\n(A) 200 W\n(B) 0 W\n(C) 0 W\n(D) 1000 W",
+  "schema": null,
+  "code_execution": true,
+  "temperature": 0.0,
+  "seed": 7
+ },
+ "text": "```json\n{\"answer\": \"B\",\n \"value\": \"0 W\",\n \"working\": \"Power P = V_rms * I_rms * cos(phi)\\nPhase difference phi = 90 degrees\\nSince cos(90 deg) = 0, P = 0 W\\nOptions (B) and (C) are identical.\",\n \"confidence\": 1.0,\n \"issues\": [{\"type\": \"multiple_correct\", \"detail\": \"Both option (B) and (C) are identical ('0 W').\"}]}\n```",
+ "code": [
+  "import numpy as np\n\nI0 = 5\nV0 = 200\nphi = np.pi / 2 # phase difference\n\nP_avg = 0.5 * V0 * I0 * np.cos(phi)\nprint(f\"Power: {P_avg} W\")\n",
+  "options = {'A': '200 W', 'B': '0 W', 'C': '0 W', 'D': '1000 W'}\nprint(options)\n"
+ ],
+ "code_output": [
+  "Power: 3.061616997868383e-14 W\n",
+  "{'A': '200 W', 'B': '0 W', 'C': '0 W', 'D': '1000 W'}\n"
+ ],
+ "usage": {
+  "prompt": 788,
+  "output": 255,
+  "thoughts": 563,
+  "tool": 1672,
+  "total": 3278
+ }
+}
