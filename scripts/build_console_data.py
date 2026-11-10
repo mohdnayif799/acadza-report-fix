@@ -16,6 +16,7 @@ Within a rank: more reporters first, then the oldest report first.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -69,6 +70,51 @@ REPAIR_LABEL = {
 ROUTE_ORDER = {"faculty_review": 0, "auto_apply": 1, "no_change": 2}
 SECTION = {"faculty_review": "decide", "auto_apply": "auto", "no_change": "reply"}
 TYPE_LABEL = {"scq": "Single correct", "mcq": "Multiple correct", "integerQuestion": "Numerical"}
+
+
+PROBLEM = {
+    "answer_key": "Answer key wrong",
+    "type_mismatch": "Wrong type",
+    "stem_data": "Missing data",
+    "unsound": "No correct option",
+    "diagram": "Figure missing",
+    "identical_options": "Identical options",
+    "wrong_question": "Wrong solution",
+    "solution_fix": "Wrong solution",
+    "solution_missing": "Wrong solution",
+    "spelling": "Spelling",
+    "exam_reference": "Exam tag",
+    "markup_leak": "Raw code showing",
+    "notation": "Notation",
+    "answer_form": "Unit missing",
+    "noise": "Stray text",
+    "wrong_chapter": "Wrong chapter",
+    "syllabus": "Syllabus check",
+}
+NON_DEFECT = {
+    "no_error": "No error",
+    "display_issue": "Display issue",
+    "app_issue": "App issue",
+    "language_mode": "Language request",
+    "already_fixed": "Already fixed",
+    "not_actionable": "Nothing to act on",
+}
+
+
+def problem(row: dict, findings: list[dict]) -> str:
+    """The specific problem in plain words (urgency is shown by order and section)."""
+    if row["verdict"] != "defect":
+        return NON_DEFECT[row["verdict"]]
+    if row["repair"] == "option_repair":
+        for f in findings:
+            if f["code"] == "missing_option":
+                letters = re.findall(
+                    r"(?<![A-Za-z])([A-D])(?![A-Za-z])", f["detail"].split("absent")[0]
+                )
+                return f"Option {' and '.join(letters)} missing"
+            if f["code"] == "blank_option":
+                return f"Option {f['extra']['letter']} blank"
+    return PROBLEM.get(row["repair"], REPAIR_LABEL.get(row["repair"], "Defect"))
 
 
 def urgency(row: dict) -> tuple[int, str]:
@@ -171,6 +217,7 @@ def build() -> dict:
                 "section": SECTION[main["route"]],
                 "rank": rank,
                 "urgency": label,
+                "problem": problem(main, trace["questions"][qid]["findings"]),
                 "urgent": rank <= 2,
                 "verdict": main["verdict"],
                 "verdict_label": VERDICT_LABEL[main["verdict"]],

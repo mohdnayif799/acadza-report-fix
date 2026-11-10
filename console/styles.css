@@ -45,6 +45,7 @@
   --add-bg: #E6F4EA; --add-text: #14532D;
   --urgent-bg: #FEF3F2; --urgent-text: #B42318;
   --hover: #F2F1EC;
+  --selected: #E6F0EF; /* subtle teal tint; text stays --text */
   --shadow: 0 -1px 3px rgba(28, 27, 25, 0.06);
 
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
@@ -68,6 +69,7 @@
     --add-bg: #16301F; --add-text: #A8DDB5;
     --urgent-bg: #3A1714; --urgent-text: #F7B5AE;
     --hover: #222624;
+    --selected: #1E3230;
     --shadow: 0 -1px 3px rgba(0, 0, 0, 0.35);
   }
 }
@@ -147,17 +149,17 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   padding: var(--s3) var(--s4); border: 0; background: transparent; cursor: pointer;
 }
 .q-row:hover { background: var(--hover); }
-.q-row[aria-current="true"] { background: var(--accent); color: var(--on-accent); }
-.q-row[aria-current="true"] .q-sub,
-.q-row[aria-current="true"] .q-status { color: var(--on-accent); }
-.q-line { display: flex; gap: var(--s2); align-items: baseline; }
+/* Selected: tinted background + teal marker; text keeps its normal colours (readable). */
+.q-row[aria-current="true"] { background: var(--selected); box-shadow: inset 3px 0 0 var(--accent); }
+.q-row[aria-current="true"] .q-sub { color: var(--text); }
+.q-line { display: flex; gap: var(--s2); align-items: baseline; white-space: nowrap; }
 .q-count { font-size: var(--small); font-variant-numeric: tabular-nums; }
 .q-sub { color: var(--text-2); font-size: var(--small); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .q-status { color: var(--text-2); font-size: var(--small); }
 .q-status.done { color: inherit; font-weight: 500; }
-.q-item.has-undo .q-row { padding-right: 72px; }
+/* Undo sits on the status line (bottom right), so the tag line keeps its full width. */
 .q-undo {
-  position: absolute; right: var(--s3); top: 50%; transform: translateY(-50%);
+  position: absolute; right: var(--s3); bottom: var(--s2);
   min-height: 28px; padding: 0 var(--s2); font-size: var(--small);
   border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); cursor: pointer;
 }
@@ -258,10 +260,10 @@ details.solution .content { margin-top: var(--s2); font-size: var(--body); }
 .reply .who { font-size: var(--small); color: var(--text-2); display: block; margin-bottom: 2px; }
 
 .actionbar {
-  display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: var(--s2);
+  display: flex; flex-wrap: wrap; gap: var(--s2);
   padding: var(--s3) var(--s4); border-top: 1px solid var(--border); background: var(--panel); box-shadow: var(--shadow);
 }
-.actionbar button { justify-content: center; padding: 0 var(--s2); min-width: 0; white-space: nowrap; }
+.actionbar button { flex: 1 1 auto; justify-content: center; padding: 0 var(--s3); white-space: nowrap; }
 .actionbar[hidden] { display: none; }
 
 /* ---------- drawer, dialog, toast ---------- */
@@ -306,7 +308,7 @@ details.solution .content { margin-top: var(--s2); font-size: var(--body); }
   .panes { grid-template-columns: 1fr; }
   .queue { max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--border); }
   .decision { border-left: 0; border-top: 1px solid var(--border); }
-  .actionbar { position: sticky; bottom: 0; grid-template-columns: repeat(2, 1fr); }
+  .actionbar { position: sticky; bottom: 0; }
   .top { flex-wrap: wrap; gap: var(--s2) var(--s4); }
   .source { width: 100%; order: 3; }
   .diff-side { grid-template-columns: 1fr; }

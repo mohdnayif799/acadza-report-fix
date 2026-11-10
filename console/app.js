@@ -11,14 +11,28 @@
     ["reply", "No change (reply only)"],
   ];
   const STATUS_TEXT = {
-    pending: "Needs decision", applied: "Applied automatically", approved: "Approved",
-    edited: "Approved with edits", rejected: "Rejected", kept: "Kept", reverted: "Reverted",
-    reply_approved: "Reply approved", reply_edited: "Reply edited",
+    pending: "Needs decision", applied: "Applied automatically", approved: "Fix approved",
+    edited: "Fix edited and approved", rejected: "Fix rejected", kept: "Kept as is",
+    reverted: "Fix reverted", reply_approved: "Reply approved", reply_edited: "Reply edited",
+    sent: "Sent to content team", fix_written: "Fix written", dismissed: "Report dismissed",
+    flagged: "Flagged as defect",
   };
+  // Every button says exactly what will happen: [label, resulting status, toast].
+  const KINDS = {
+    fix: { primary: "approve", approve: ["Approve fix", "approved", "Fix approved"],
+      edit: ["Edit fix", "edited", "Fix edited and approved"], reject: ["Reject fix", "rejected", "Fix rejected"] },
+    auto: { primary: "approve", approve: ["Keep as is", "kept", "Kept as is"],
+      edit: ["Edit fix", "edited", "Fix edited and approved"], reject: ["Revert fix", "reverted", "Fix reverted"] },
+    nofix: { primary: "edit", approve: ["Mark as sent to content team", "sent", "Sent to content team"],
+      edit: ["Write fix", "fix_written", "Fix written"], reject: ["Dismiss report", "dismissed", "Report dismissed"] },
+    reply: { primary: "approve", approve: ["Approve reply", "reply_approved", "Reply approved"],
+      edit: ["Edit reply", "reply_edited", "Reply edited and approved"], reject: ["Flag as defect", "flagged", "Flagged as defect"] },
+  };
+  const kindOf = (c) => (c.section === "reply" ? "reply" : c.section === "auto" ? "auto" : c.edit ? "fix" : "nofix");
   const ROUTE_TEXT = {
-    decide: "Needs your decision.",
-    auto: "Applied automatically. Approve to keep it, or Reject to revert it.",
-    reply: "No change to the question. Check the reply, then approve.",
+    decide: null,
+    auto: "Applied automatically. Keep it as is, or revert it.",
+    reply: "No change to the question. Check the reply.",
   };
   const FACULTY_TODO = {
     option_repair: "Write the missing option. Nothing in the data shows what it was.",
@@ -112,7 +126,7 @@
       onclick: () => select(idx),
     },
       h("span", { class: "q-line" },
-        h("span", { class: c.urgent ? "label urgent" : "label" }, c.urgency),
+        h("span", { class: c.urgent ? "label urgent" : "label" }, c.problem),
         h("span", { class: "q-count" }, plural(c.reports.length, "report"))),
       h("span", { class: "q-sub" }, `${c.subject} / ${c.chapter}`),
       h("span", { class: isOpen(c) ? "q-status" : "q-status done" }, statusText(c)));
@@ -120,7 +134,7 @@
     if (c.section === "auto" && st === "applied") {
       item.classList.add("has-undo");
       item.append(h("button", {
-        type: "button", class: "q-undo", "aria-label": `Revert the automatic change (${c.urgency})`,
+        type: "button", class: "q-undo", "aria-label": `Revert fix: ${c.problem}`,
         onclick: (e) => { e.stopPropagation(); current = idx; act("reject"); },
       }, "Undo"));
     }
@@ -180,13 +194,14 @@
       h("pre", {}, `find:    ${ch.find}\nreplace: ${edits.replace != null ? edits.replace : ch.replace}`)));
     return block;
   }
-  function noChangeBlock(c) {
+  function noChangeBlock(c, st) {
     if (c.section === "reply") {
       return h("section", { class: "block" }, h("h2", {}, "No change to the question"),
         h("p", { class: "no-edit" }, "The report did not find a defect in the stored question. Only the student reply goes out."));
     }
     return h("section", { class: "block" }, h("h2", {}, "No automatic fix"),
-      h("p", { class: "no-edit" }, FACULTY_TODO[c.repair] || "Needs a faculty decision; see the evidence."));
+      h("p", { class: "no-edit" }, FACULTY_TODO[c.repair] || "Needs a faculty decision; see the evidence."),
+      st.fix ? h("div", { class: "block" }, h("h2", {}, "Your fix for the content team"), h("p", { class: "no-edit" }, st.fix)) : null);
   }
   function renderCase(c) {
     const art = $("case");
@@ -199,9 +214,10 @@
       h("h2", { class: "case-title" }, `${c.subject} / ${c.chapter}`),
       h("section", { class: "block" }, h("h2", {}, "Question as students see it now"), rich(c.question_html),
         h("p", { class: "stored-answer" }, "Stored answer: ", h("span", { class: "mono" }, c.answer))),
-      c.change ? changeBlock(c, { replace: st.replace }) : noChangeBlock(c),
+      c.change ? changeBlock(c, { replace: st.replace }) : noChangeBlock(c, st),
     );
-    if (editing && hasChangeEdit(c)) art.append(changeEditor(c));
+    if (editing && editTarget(c) === "change") art.append(changeEditor(c));
+    if (editing && editTarget(c) === "fix") art.append(fixEditor(c));
     if (!(c.change && c.change.field === "solution")) {
       art.append(h("section", { class: "block" },
         h("details", { class: "solution" }, h("summary", {}, "Stored solution"), rich(c.solution_html))));
@@ -215,12 +231,11 @@
     body.scrollTop = 0;
     const st = caseState(c);
     const agree = c.checks.filter((k) => k.agrees).length;
-    const title = c.repair ? c.repair_label : c.verdict_label;
+    const routeLine = isOpen(c) ? ROUTE_TEXT[c.section] : `${STATUS_TEXT[st.status]}.`;
     body.append(
       h("section", {},
-        h("h2", {}, title),
-        c.repair ? h("p", { class: "verdict-sub" }, c.verdict_label) : null,
-        h("p", { class: "route" }, isOpen(c) ? ROUTE_TEXT[c.section] : `${STATUS_TEXT[st.status]}.`)),
+        h("h2", {}, c.problem),
+        routeLine ? h("p", { class: "route" }, routeLine) : null),
       h("section", {},
         h("h3", {}, "Confidence"),
         h("p", { class: "confidence" }, h("span", { class: "num" }, c.confidence.toFixed(2)),
@@ -233,9 +248,12 @@
       h("section", {}, h("h3", {}, `Student ${c.reports.length === 1 ? "report" : "reports"} and ${c.reports.length === 1 ? "reply" : "replies"}`),
         h("div", { class: "reports" }, c.reports.map((r) => reportView(r, st)))),
     );
-    for (const btn of $("actionbar").querySelectorAll("button")) {
-      btn.disabled = btn.dataset.action === "undo" && !canUndo();
-    }
+    const k = KINDS[kindOf(c)];
+    $("actionbar").replaceChildren(
+      ...[k.primary, ...["approve", "edit", "reject"].filter((a) => a !== k.primary)].map((a) => h("button", {
+        type: "button", class: a === k.primary ? "btn-primary" : "btn", "data-action": a,
+      }, `${k[a][0]} `, h("kbd", {}, a[0].toUpperCase()))),
+      h("button", { type: "button", class: "btn", "data-action": "undo", disabled: !canUndo() }, "Undo ", h("kbd", {}, "U")));
   }
   function reportView(r, st) {
     const edited = st.replies && st.replies[r.reportId];
@@ -244,7 +262,7 @@
       r.injection
         ? h("p", { class: "report-comment flagged" }, `Flagged: the comment tries to instruct the system, so no model ever read it as an instruction. Text: “${r.comment}”`)
         : h("p", { class: "report-comment" }, `“${r.comment}”`));
-    if (editing && !hasChangeEdit(cases[current])) {
+    if (editing && editTarget(cases[current]) === "reply") {
       wrap.append(h("div", { class: "editor" }, h("label", { for: `reply-${r.reportId}` }, `Reply to ${r.reportId}`),
         h("textarea", { id: `reply-${r.reportId}`, class: "prose", rows: "5", "data-report": r.reportId }, edited || r.reply)));
     } else {
@@ -255,6 +273,17 @@
 
   /* ---------- editing ---------- */
   const hasChangeEdit = (c) => Boolean(c && c.edit);
+  // What E edits: the proposed change, a fix you write for the content team, or the reply.
+  const editTarget = (c) => (c.edit ? "change" : kindOf(c) === "nofix" ? "fix" : "reply");
+  function fixEditor(c) {
+    const st = caseState(c);
+    return h("section", { class: "block editor" },
+      h("label", { for: "edit-fix" }, "Your fix for the content team"),
+      h("textarea", { id: "edit-fix", class: "prose", rows: "5", placeholder: FACULTY_TODO[c.repair] || "Describe the fix." }, st.fix || ""),
+      h("div", { class: "row" },
+        h("button", { type: "button", class: "btn-primary", onclick: saveEdit }, "Save fix ", h("kbd", {}, "Ctrl+Enter")),
+        h("button", { type: "button", class: "btn", onclick: cancelEdit }, "Cancel ", h("kbd", {}, "Esc"))));
+  }
   function changeEditor(c) {
     const st = caseState(c);
     const value = st.replace != null ? st.replace : (typeof c.edit.replace === "string" ? c.edit.replace : JSON.stringify(c.edit.replace));
@@ -272,9 +301,9 @@
     if (current < 0) return;
     editing = true;
     render();
-    const target = document.querySelector("#edit-replace, .decision textarea");
+    const target = document.querySelector("#edit-replace, #edit-fix, .decision textarea");
     if (target) target.focus();
-    if (!hasChangeEdit(cases[current])) {
+    if (editTarget(cases[current]) === "reply") {
       $("decision-body").append(h("div", { class: "editor row" },
         h("button", { type: "button", class: "btn-primary", onclick: saveEdit }, "Save and approve ", h("kbd", {}, "Ctrl+Enter")),
         h("button", { type: "button", class: "btn", onclick: cancelEdit }, "Cancel ", h("kbd", {}, "Esc"))));
@@ -291,6 +320,12 @@
       }
       editing = false;
       return act("edit", { replace: value });
+    }
+    if (editTarget(c) === "fix") {
+      const text = $("edit-fix").value.trim();
+      if (!text) return toast("Write the fix first, or press Esc to cancel.");
+      editing = false;
+      return act("edit", { fix: text });
     }
     const replies = {};
     document.querySelectorAll(".decision textarea[data-report]").forEach((t) => { replies[t.dataset.report] = t.value.trim(); });
@@ -317,7 +352,7 @@
       action: "undo", status_before: st.status, status_after: prev.status,
       field: c.edit ? c.edit.field : "reply", before: st.status, after: prev.status,
     });
-    store.cases[c.id] = { ...st, status: prev.status, replace: prev.replace, replies: prev.replies };
+    store.cases[c.id] = { ...st, status: prev.status, replace: prev.replace, replies: prev.replies, fix: prev.fix };
     save();
     toast(`Undone: ${c.reports.map((r) => r.reportId).join(", ")} ${c.reports.length === 1 ? "is" : "are"} back to "${STATUS_TEXT[prev.status]}".`);
     select(idx);
@@ -327,28 +362,29 @@
     if (current < 0) return;
     const c = cases[current];
     const st = JSON.parse(JSON.stringify(caseState(c)));
-    const before = { status: st.status, replace: st.replace, replies: st.replies };
+    const before = { status: st.status, replace: st.replace, replies: st.replies, fix: st.fix };
     let entry = { action, before: null, after: null };
+    const kind = KINDS[kindOf(c)];
+    const label = kind[action][0].toLowerCase();
     {
       st.history.push(before);
+      st.status = kind[action][1];
       if (action === "approve") {
-        st.status = c.section === "auto" ? "kept" : c.section === "reply" ? "reply_approved" : "approved";
-        entry = { action: "approve", before: proposal(c) && proposal(c).find, after: proposal(c) ? (st.replace != null ? st.replace : proposal(c).replace) : "reply as written" };
+        entry = { action: label, before: proposal(c) && proposal(c).find, after: proposal(c) ? (st.replace != null ? st.replace : proposal(c).replace) : (st.fix || "reply as written") };
       } else if (action === "reject" && c.section === "auto") {
-        st.status = "reverted";
-        entry = { action: "revert automatic change", before: c.edit && c.edit.replace, after: c.edit && c.edit.find };
+        entry = { action: label, before: c.edit && c.edit.replace, after: c.edit && c.edit.find };
       } else if (action === "reject") {
-        st.status = "rejected";
-        entry = { action: "reject", before: proposal(c) && proposal(c).replace, after: proposal(c) ? "stored content kept" : "verdict rejected" };
+        entry = { action: label, before: proposal(c) && proposal(c).replace, after: proposal(c) ? "stored content kept" : "verdict rejected" };
       } else if (action === "edit") {
         if (payload.replace != null) {
           st.replace = payload.replace;
-          st.status = "edited";
-          entry = { action: "edit and approve", before: c.edit.replace, after: payload.replace };
+          entry = { action: label, before: c.edit.replace, after: payload.replace };
+        } else if (payload.fix != null) {
+          st.fix = payload.fix;
+          entry = { action: label, before: null, after: payload.fix };
         } else {
           st.replies = { ...(st.replies || {}), ...payload.replies };
-          st.status = c.section === "reply" ? "reply_edited" : "edited";
-          entry = { action: "edit reply and approve", before: c.reports.map((r) => r.reply), after: c.reports.map((r) => st.replies[r.reportId]) };
+          entry = { action: label, before: c.reports.map((r) => r.reply), after: c.reports.map((r) => st.replies[r.reportId]) };
         }
       }
     }
@@ -360,8 +396,7 @@
       field: c.edit ? c.edit.field : "reply", before: entry.before, after: entry.after,
     });
     save();
-    const word = { approve: c.section === "auto" ? "Kept" : "Approved", reject: "Rejected", edit: "Saved and approved" }[action];
-    toast(`${st.status === "reverted" ? "Automatic change reverted" : word}: ${c.reports.map((r) => r.reportId).join(", ")}. Press U to undo.`);
+    toast(`${kind[action][2]}: ${c.reports.map((r) => r.reportId).join(", ")}. Press U to undo.`);
     advance();
   }
   function advance() {

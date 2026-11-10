@@ -364,3 +364,11 @@ My notes from trying the console:
 - Selected queue row: dark text on bright teal is hard to read. Use a subtle tinted
   background with a teal left marker or text instead, and check its contrast.
 ````
+
+## 2026-11-10 ~22:00 IST: console round 2 (user's notes) + checks
+- **Labels:** queue tags and the right-panel title now name the specific problem ("Option D missing", "Option C blank", "No correct option", "Wrong solution", ...), derived in `build_console_data.py` from the code findings (letter of the missing/blank option). Urgency is carried by section and order; red label styling stays only as the "urgent" colour on the top two tiers. Removed the "Needs your decision." line.
+- **Buttons say exactly what happens**, one table per case kind: fix proposed → Approve fix / Edit fix / Reject fix; applied automatically → Keep as is / Edit fix / Revert fix; no fix possible → **Write fix** (primary, opens an editor for the content team) / Mark as sent to content team / Dismiss report; reply only → Approve reply / Edit reply / Flag as defect. Toasts and audit entries reuse the same words.
+- **Queue:** tags never wrap; the auto-applied Undo button moved to the status line. **Selected row:** subtle teal tint (#E6F0EF light, #1E3230 dark) + 3px teal marker, text keeps its normal colours (user found dark text on bright teal hard to read).
+- AI-WRONG (small, my patch script): writing a regex through a Python heredoc turned `\b` into backspace characters, so "Option D missing" rendered as "Option  missing". Caught by printing the generated labels.
+- `scripts/check_contrast.py` reads the tokens from `console/styles.css`: 34 text/background pairs (17 per theme, incl. selected row, hover, urgent, diff, primary button, toast): all ≥ 4.5:1; lowest 5.36 (dark secondary text on the selected row). No colour changes needed.
+- Vibe-coded list checked by grep + screenshots (all clean). Phone width (375px): no horizontal overflow, panes stack; nothing to fix.
