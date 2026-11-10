@@ -42,6 +42,8 @@ questions ─► HTML+MathML parser ─► code checks ─► solver A ─┐  s
 | `engine/validate.py` | Checks `results.json`: all 44 reports, exact keys, taxonomy-only values, edits only on allowed fields |
 | `console/` | Static faculty console (HTML/CSS/JS, vendored DOMPurify + jsdiff, self-hosted IBM Plex and STIX Two Math) |
 
+**Queue order (what "most urgent" means):** by harm to students. Wrong answer keys first (every attempt is marked wrong and the wrong idea is taught), then questions students can't solve as shown (missing option, data or figure, no correct option), then wrong solutions, then cosmetic issues, then filing (chapter, syllabus). Within each, more reports go higher, then the oldest report. The console groups cases needing a decision first, then automatic fixes (to spot-check), then reply-only cases.
+
 Models are pinned in `engine/config.py` and overridable through `.env` (see `.env.example`).
 
 ## How to run

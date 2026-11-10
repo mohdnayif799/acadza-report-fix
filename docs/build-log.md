@@ -402,3 +402,28 @@ Commit each step and stop when 1 to 7 are done.
 - Deployed **only `console/`** (`vercel link --project acadza-report-review`, `vercel deploy --prod`). `vercel link` wrote a `.env.local` with a short-lived OIDC token into `console/`; I deleted it and added `console/.vercelignore` (`.env*`, `.vercel`), verified `/.env.local` returns 404 on the live site.
 - `console/vercel.json`: CSP `default-src 'self'` (no inline scripts/styles needed), nosniff, referrer and permissions policies, `no-cache` on `/data/*`.
 - Production URL: https://acadza-report-review.vercel.app (stable project domain, not a preview URL). Logged-out curl: `/` 200, `/data/cases.json` 200, `/app.js` 200, fonts 200. Default Deployment Protection covers preview/deployment URLs only, so the production domain is public. Opened in a fresh browser tab: 39 cases render, MathML + fonts load, no console errors under the CSP.
+
+---
+
+## 2026-11-10 22:43 IST: PROMPT #8 (queue explanation, licence note, push)
+
+````text
+Three things, in this order. Commit each step.
+
+1. Explain the queue order (the brief says "ordered by whatever you think most urgent means (say why)", and the live site never explains it):
+   - Add one short line under the queue header, like: "Ordered by harm to students: wrong answer keys first, then questions students can't solve, then cosmetic, then filing. More reports go higher."
+   - Add the same explanation to the shortcuts panel and the README.
+   - Keep it plain and small, no new UI.
+   - Redeploy to the same Vercel production URL and check it as a logged-out visitor.
+
+2. README licence note: add one line saying the code is under the LICENSE, but data/ belongs to Acadza and is not covered by it.
+
+3. Push to GitHub. Repo URL: https://github.com/mohdnayif799/acadza-report-fix.git
+   - The repo is not empty: I ticked "Add license" when creating it, so it already has one commit with a LICENSE file. Keep that file.
+   - Fast-forward main to build, add the remote, fetch origin, rebase main onto origin/main, then push main. Don't force push.
+   - Push main only. Delete build locally after the push succeeds. Keep .claude/launch.json untracked.
+   - Show me the commands before running them.
+   - After pushing, list the files on the GitHub repo and confirm README.md, results.json, PROMPTS.md, PRODUCT.md, out/bonus_defects.json and LICENSE are there, and .env is not.
+
+Then stop.
+````

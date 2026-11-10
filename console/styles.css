@@ -135,6 +135,8 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* ---------- queue ---------- */
 .queue { overflow-y: auto; background: var(--panel); border-right: 1px solid var(--border); }
+.q-order { padding: var(--s3) var(--s4) 0; font-size: var(--small); color: var(--text-2); }
+.keys-note { margin-bottom: var(--s4); color: var(--text-2); }
 .q-section + .q-section { border-top: 1px solid var(--border); }
 .q-section h2 {
   position: sticky; top: 0; z-index: 1;

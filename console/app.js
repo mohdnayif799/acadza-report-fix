@@ -29,6 +29,8 @@
       edit: ["Edit reply", "reply_edited", "Reply edited and approved"], reject: ["Flag as defect", "flagged", "Flagged as defect"] },
   };
   const kindOf = (c) => (c.section === "reply" ? "reply" : c.section === "auto" ? "auto" : c.edit ? "fix" : "nofix");
+  const ORDER_NOTE = "Ordered by harm to students: wrong answer keys first, then questions students " +
+    "can't solve, wrong solutions, cosmetic, then filing. More reports go higher.";
   const ROUTE_TEXT = {
     decide: null,
     auto: "Applied automatically. Keep it as is, or revert it.",
@@ -107,7 +109,7 @@
   /* ---------- queue ---------- */
   function renderQueue() {
     const nav = $("queue");
-    nav.replaceChildren();
+    nav.replaceChildren(h("p", { class: "q-order" }, ORDER_NOTE));
     for (const [key, title] of SECTIONS) {
       const items = cases.filter((c) => c.section === key);
       if (!items.length) continue;
