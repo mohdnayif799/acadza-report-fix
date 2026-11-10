@@ -431,3 +431,11 @@ Then stop.
 ## 2026-11-10 ~22:50 IST: queue order explained, redeployed
 - One line at the top of the queue, the same explanation in the shortcuts panel and README. Redeployed to the same production URL; logged-out curl: `/` 200, `/data/cases.json` 200, `/.env.local` 404.
 - Small catch on the live site: on first load the queue was scrolled 150 px (scrollIntoView of the first row under the sticky section header), hiding the new note. Fixed (queue stays at the top when the first case is selected) and redeployed; verified scrollTop 0 and the note visible.
+
+## 2026-11-10 ~23:05 IST: pushed to GitHub
+- Commands (shown to the user first): `git checkout main` → `git merge --ff-only build` → `git remote add origin https://github.com/mohdnayif799/acadza-report-fix.git` → `git fetch origin` (origin/main = one commit, MIT LICENSE) → `git rebase origin/main` (14 commits replayed, no conflicts; main = build + LICENSE) → `git push -u origin main` (no force) → `git branch -D build`.
+
+### AI-WRONG #12: data/ was not byte-identical in the repo (caught by a byte check after the rebase)
+- The very first commit (setup) happened before I added `.gitattributes`. With Windows `core.autocrlf=true`, git converted `data/questions.json` and `data/reports.json` (CRLF in the zip) to LF when storing them. Same JSON, different bytes, against the rule "data/ unchanged". My setup check had compared the *working copy* with the zip, not what git stored, so it passed.
+- Caught after the rebase: I re-ran `cmp` against the zip before pushing; `taxonomy.json` differed in the working copy (the rebase re-checked-out the pre-.gitattributes commit, adding 32 CRs locally). Investigating that, I compared the *committed blobs* with the zip and found the two LF-converted files. I had pushed once already by then (a mistake: I should have stopped at the first mismatch).
+- Fix: committed the exact zip bytes (`.gitattributes` keeps `data/` raw) and pushed normally (fast-forward, no force). Now every file in `data/` and `brief/ASSIGNMENT.md` on `main` is byte-identical to the zip; tests and `engine.validate` pass.

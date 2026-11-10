@@ -563,6 +563,8 @@ All of these are in `docs/build-log.md` with the time they happened. None were i
 
 8. **The console's Undo did the wrong thing.** After an action the console moves to the next case, but U acted on the *new* case, and on an auto-applied case it would have reverted a fix nobody had looked at. *Caught while testing the console in a browser.* Fix: U undoes your last action wherever it was and jumps back to it.
 
+9. **Acadza's data was not stored byte-for-byte.** The setup commit predated my `.gitattributes`, so Windows' `core.autocrlf` stored `data/questions.json` and `data/reports.json` with LF instead of the zip's CRLF: same JSON, different bytes, against "never edit data/". My setup check compared the working copy, not what git stored. *Caught by a byte comparison with the zip that I re-ran after rebasing onto the GitHub repo*, unfortunately after the first push; fixed with a normal follow-up commit of the exact bytes.
+
 ## 6. Design decisions log
 
 | Decision | Chosen | Tried / dropped, and why |
