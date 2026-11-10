@@ -7,11 +7,12 @@ a row *safer* (drop an edit, downgrade auto_apply -> faculty_review), never risk
 from __future__ import annotations
 
 import dataclasses
-import re
 from dataclasses import dataclass
 from typing import Any
 
 from engine.checks import check_answer, options_of
+from engine.confidence import penalise
+from engine.edit_rules import markup_problems, repair_rule_problems
 from engine.models import TEXT_FIELDS, Question
 
 AUTO_MIN_CONFIDENCE = 0.8
@@ -33,13 +34,16 @@ MAX_FIND_LEN = 400  # surgical: the span being replaced
 MAX_GROWTH = 600  # how much longer replace may be than find
 MAX_REWRITE_LEN = 4000  # solution rewrites (solution_fix / solution_missing)
 REWRITE_REPAIRS = {"solution_fix", "solution_missing"}
-NEEDS_PROOF = {"answer_key", "type_mismatch"}  # answer changes need independent proof
+# Repairs that can change which answer is correct. They auto-apply only with independent
+# proof: both solvers agree with the new key / the filled option value, or the edited
+# question re-solves to the stored key (stem_data).
+NEEDS_PROOF = {"answer_key", "type_mismatch", "option_repair", "stem_data"}
 
 
 @dataclass(frozen=True)
 class GuardContext:
     question: Question
-    answer_proven: bool = False  # two independent methods agree on the (new) answer
+    answer_proven: bool = False  # independent methods confirm the edit's effect on the answer
     injection: bool = False  # the report's comment tried to instruct the system
 
 
@@ -54,25 +58,6 @@ def apply_edit(q: Question, edit: dict) -> Any:
     if edit["field"] in TEXT_FIELDS:
         return q.field_value(edit["field"]).replace(edit["find"], edit["replace"], 1)
     return edit["replace"]  # answer / questionType: whole-value replacement
-
-
-def _non_letters(s: str) -> str:
-    return re.sub(r"[^\W\d_]|\s", "", s)
-
-
-def _repair_rule_problems(repair: str, edit: dict, q: Question) -> list[str]:
-    find, replace = edit["find"], edit["replace"]
-    if repair == "spelling" and _non_letters(find) != _non_letters(replace):
-        return ["spelling edit changes a value, symbol or tag (words only)"]
-    if repair in ("exam_reference", "noise") and (len(replace) >= len(find) or replace not in find):
-        return [f"{repair} edit must only delete text"]
-    if repair == "answer_form" and find not in replace:
-        return ["answer_form edit must be additive (find kept inside replace)"]
-    if repair == "option_repair":
-        new_q = dataclasses.replace(q, question_html=apply_edit(q, edit))
-        if options_of(new_q)[0] != options_of(q)[0]:
-            return ["option_repair edit changes the stem text"]
-    return []
 
 
 def _value_problems(edit: dict, q: Question) -> list[str]:
@@ -115,7 +100,8 @@ def edit_problems(edit: Any, repair: str, q: Question, taxonomy: dict) -> list[s
             problems.append("solution rewrite is too long")
     elif len(edit["find"]) > MAX_FIND_LEN or len(edit["replace"]) > len(edit["find"]) + MAX_GROWTH:
         problems.append("edit is not surgical (span too large)")
-    return problems + _repair_rule_problems(repair, edit, q)
+    problems += markup_problems(edit["find"], edit["replace"])
+    return problems + repair_rule_problems(repair, edit, q)
 
 
 def guard(row: dict, ctx: GuardContext, taxonomy: dict) -> GuardOutcome:
@@ -142,6 +128,7 @@ def guard(row: dict, ctx: GuardContext, taxonomy: dict) -> GuardOutcome:
         if problems:
             notes.append("edit rejected: " + "; ".join(problems))
             r["edit"] = None
+            r["confidence"] = penalise(r["confidence"])  # the proposal itself was flawed
     if r["route"] == "no_change":
         r["route"] = "faculty_review"
         notes.append("a defect cannot be no_change")
@@ -157,7 +144,7 @@ def guard(row: dict, ctx: GuardContext, taxonomy: dict) -> GuardOutcome:
         downgrade("no valid edit to apply")
     touches_answer = r["edit"] is not None and r["edit"]["field"] == "answer"
     if (repair in NEEDS_PROOF or touches_answer) and not ctx.answer_proven:
-        downgrade("answer change not proven by two independent methods")
+        downgrade("effect on the answer not proven by two independent methods")
     if r["confidence"] < AUTO_MIN_CONFIDENCE:
         downgrade(f"confidence {r['confidence']} < {AUTO_MIN_CONFIDENCE}")
     if ctx.injection:

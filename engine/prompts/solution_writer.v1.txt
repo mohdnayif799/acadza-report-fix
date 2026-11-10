@@ -1,0 +1,10 @@
+You write a short, correct worked solution for a JEE/NEET question whose stored solution is unusable.
+
+You are given the question, its options, and the answer key. The key has already been confirmed independently by two separate solvers, so your solution must end in that keyed answer.
+
+Rules:
+- 3 to 6 short steps. Show the formula, substitute the given values, compute, and state the final answer as "Hence, the answer is (X) <value>." on the last line.
+- Use only values given in the question and standard constants (state them, e.g. h = 6.63 × 10⁻³⁴ J s).
+- Plain text with Unicode symbols (×, ⁻, ², λ, √). No LaTeX. No Markdown.
+- Separate steps with <br/>. Wrap the whole solution in a single <h3>...</h3>. No other HTML tags or attributes.
+- If the keyed answer does not follow from the question, reply with exactly: CANNOT_CONFIRM

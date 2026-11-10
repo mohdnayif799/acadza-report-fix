@@ -15,7 +15,7 @@ _LATEX = re.compile(
     r"omega|Delta|AA|circ|text|mathrm|vec|hat|over)\b(?:\{[^{}]*\}){0,2}"
 )
 _ALIGN_AMP = re.compile(r"<mi>\s*&(?:amp;)?\s*</mi>")
-_EXAM_TAG = re.compile(
+EXAM_TAG = re.compile(
     r"\(\s*(?:NEET|AIPMT|AIIMS|JEE(?:\s+(?:Main|Mains|Advanced|Adv))?|MHT[- ]?CET|BITSAT|KCET|"
     r"EAMCET|CBSE)[^()]{0,20}?\b(?:19|20)\d{2}\s*\)\s?",
     re.I,
@@ -189,7 +189,7 @@ def check_markup(q: Question) -> list[Finding]:
 
 def check_question_text(q: Question) -> list[Finding]:
     findings = []
-    m = _EXAM_TAG.search(q.question_html)
+    m = EXAM_TAG.search(q.question_html)
     if m:
         findings.append(
             Finding(
@@ -248,5 +248,5 @@ def already_fixed(report: Report, q: Question) -> Finding | None:
         f"Faculty fix logged {entry['at']} ({entry.get('type')}: "
         f"{entry.get('note')}), after this report ({report.reported_at})"
         + (f"; {', '.join(map(repr, quoted))} no longer in the text" if quoted else ""),
-        extra={"entry": entry},
+        extra={"entry": entry, "quoted": quoted},
     )

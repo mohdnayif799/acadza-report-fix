@@ -44,8 +44,13 @@ def _xml_safe(math_html: str) -> str:
 
 def _wrap(s: str) -> str:
     s = s.strip()
-    # Only a bare number or a bare word is safe without brackets: "2ε_0" is not.
-    return s if re.fullmatch(r"\d+(?:\.\d+)?|[^\W\d_]+", s) else f"({s})"
+    # A bare number, bare word or single symbol is safe without brackets: "2ε_0" is not.
+    # Single symbols matter: Acadza often puts the square on the closing fence,
+    # <msup><mo>)</mo><mn>2</mn></msup>, and wrapping that printed "(7.203())^2", which the
+    # reviewer then reported as a defect (build-log AI-WRONG #10).
+    if len(s) <= 1 or re.fullmatch(r"\d+(?:\.\d+)?|[^\W\d_]+", s):
+        return s
+    return f"({s})"
 
 
 def _local(tag: str) -> str:

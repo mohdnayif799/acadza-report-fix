@@ -52,3 +52,10 @@ def test_grouping(reports):
     groups = group_reports(reports)
     assert len(groups) == 39
     assert [r.report_id for r in groups["60f744b3f1b9bc7cc7b4a949"]] == ["R002", "R003", "R001"]
+
+
+def test_power_on_closing_fence_is_not_garbled(q):
+    # Acadza writes (7.203)^2 as <mo>(</mo>7.203<msup><mo>)</mo><mn>2</mn></msup>.
+    # The old linearizer printed "(7.203())^2" and the reviewer reported a fake defect.
+    text = html_to_text(q("68dea715").solution_html)
+    assert "()" not in text and "(7.203)^2" in text.replace(" ", "")

@@ -27,3 +27,6 @@ node_modules/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Runtime LLM log (totals come from scripts/cost_report.py over cache/llm)
+cache/token_log*.jsonl
