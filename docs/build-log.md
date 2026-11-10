@@ -454,3 +454,10 @@ Redeploy to the same production URL, check it logged out, run validate and tests
 ## 2026-11-11 ~01:00 IST: diff tokens + a human edit to a model reply
 - **Diff fix:** inline diffs used `Diff.diffWords`, which split `\frac{7}{8}` into runs (`\frac{`, `}{`, `}`) with `/` squeezed in (R014, reported by the user). Now `Diff.diffArrays` over whitespace-separated tokens, so a token is struck or added whole; when the replacement brings in one `<math>` block, the added part is shown rendered (R014 shows a real 7/8 fraction, the blank option C fill shows rendered 1:1). Checked all 10 inline text diffs: spelling (3), missing data (2), wrong solution, exam tag, unit, option fill, raw code; all read as whole words.
 - **HUMAN EDIT to a model reply (R023):** the reply model wrote "I have sent this to our faculty team"; replies speak for the Acadza team, so a human changed it to "We have sent this to our faculty team". Recorded in `engine/human_edits.json` (who, when, why) and applied by `engine/human_edits.py` after the pipeline, so a rerun keeps it and a stale edit fails loudly instead of silently. `out/trace.json` lists it under `human_edits` for R023. This is the only human change to model output in results.json.
+
+## 2026-11-11 04:52 IST: PROMPT #10
+
+````text
+continue
+````
+- Redeployed to https://acadza-report-review.vercel.app; logged-out curl: `/` 200, `/data/cases.json` 200, `/app.js` 200 (contains the token diff), `/.env.local` 404; live data has R023's edited reply.
