@@ -190,3 +190,40 @@ Start building the engine now with the parts that don't need the key (parser, co
 - **Why it was wrong:** correlated errors. Two samples of one model with one prompt tend to make the same mistake, so their agreement is weak evidence exactly where it matters (answer-key changes).
 - **Caught by:** the user, reviewing the checkpoint-1 plan. Fix: solve #2 must differ in model or method (second model family/version, or numeric computation via code execution).
 - Also corrected: I proposed routing Q22's rewritten solution to faculty "because it's authored content"; the user pointed out the taxonomy explicitly covers it (solution_fix: "belongs to another question", auto: true), so it should be auto_apply when the solves confirm key B. My instinct was over-conservative against the stated contract.
+
+---
+
+## 2026-11-10 ~17:05 IST: setup decisions
+- First commit `7c37c74 chore: project setup` on `main` (approved in PROMPT #3); unborn branch was `master`, renamed to `main` before committing. All work now on branch `build`.
+- Git warned it would convert line endings (`core.autocrlf`). Added `.gitattributes` with `data/** -text` so the source JSON stays byte-identical to the zip.
+- Python venv `.venv`, pinned: google-genai 3.0.0, defusedxml 0.7.1, python-dotenv 1.2.4, pytest 9.2.0, ruff 0.17.4.
+
+## 2026-11-10 ~17:10 IST: AI-WRONG #2 (shadowed name, caught by type checker)
+- **What I wrote:** `Finding` dataclass with a field named `field` and, below it, `extra: dict = field(default_factory=dict)`. Inside the class body `field` already meant the class attribute (`None`), so this would have crashed on import.
+- **Caught by:** Pyright diagnostic in the editor ("Object of type None cannot be called") right after the file was written. Fixed by importing `dataclasses.field as dc_field`.
+
+## 2026-11-10 ~17:25 IST: AI-WRONG #3 (validator would have accepted a bad answer-key edit, caught by a failing test)
+- **What I wrote:** the validator and `apply_edit` treated every *string* field as find/replace text. Answers are strings for scq/integer questions, so an edit `{"field": "answer", "find": "3", "replace": "4"}` on R033's key `"3113"` would count as "find occurs exactly once" and pass, and `apply_edit` would have produced `"4113"`.
+- **Caught by:** my own parametrised validator test failed with the wrong error message (`occur exactly once` instead of `!= current answer`). Looking at why, I saw the substring path was being used for answers.
+- **Fix:** `TEXT_FIELDS = ("question", "solution")`; only these use substring find/replace. `answer` and `questionType` must match the whole stored value. Added a regression test with the exact R033 case.
+- Same test run also caught a parser ambiguity: `q/(2ε₀)` printed as `q/2ε_0` (reads as `(q/2)·ε₀`). Fractions now drop brackets only for a bare number or bare word.
+
+## 2026-11-10 ~17:30 IST: AI-WRONG #4 (a bonus-defect claim I made to the user was overstated)
+- **What I claimed (end of turn 1):** question `6062ec84…` (the R027 injection target) has "plain-text `10-5/oC` where ×10⁻⁵/°C was meant".
+- **What the raw HTML shows:** `10<sup>-5</sup>/<sup>o</sup>C`. The exponent *is* a real superscript and renders correctly; my throwaway dumper stripped `<sup>` tags, which made it look flat. What is actually wrong is only cosmetic: a letter `o` in superscript used for the degree sign, and a letter `x` for ×.
+- **Caught by:** writing the real parser (which keeps `<sup>` as `^`) and its test `test_html_superscript_kept_as_caret`. Bonus list entry downgraded to "letter o used as degree sign, letter x as multiplication sign". Lesson repeats AI-WRONG #1: verify against raw HTML before claiming.
+
+---
+
+## 2026-11-10 17:04 IST: PROMPT #4 (commit OK, key added, models + engine, DESIGN.md)
+
+````text
+Yes, commit this work on the build branch. The Gemini key is now in .env.
+
+Next:
+1. List the models my key can use. Pick a strong model for the first solve and a different second solver (another model, or code that calculates numerically where the question allows). Tell me which ones and why in two lines, then build the rest of the engine and generate results.json. Stop at checkpoint 2 with the 44-row table.
+
+2. Save the design brief below as docs/DESIGN.md now. Don't build the console yet. Follow this brief when we reach the console step, and use the frontend-design skill alongside it. If you disagree with any part, tell me why before building.
+
+[DESIGN.md brief pasted in full; saved verbatim as docs/DESIGN.md, not duplicated here]
+````
